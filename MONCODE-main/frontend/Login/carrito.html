@@ -1,48 +1,125 @@
-// Carrito.html
-<!DOCTYPE html> 
-<html lang="en">
+<!DOCTYPE html>
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carrito de Compras</title>
+    <title>Tu Carrito - Moon Code</title>
     <link rel="stylesheet" href="../Css/carrito.css">
 </head>
 <body>
-    <header>
-        <h1>Mi Carrito de Compras</h1>
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">
+            <div class="logo-icon">
+                <svg viewBox="0 0 100 100" width="50" height="50">
+                    <circle cx="50" cy="50" r="45" fill="#4a4a4a"/>
+                    <path d="M 30 50 Q 50 30 70 50 Q 50 70 30 50" fill="#c0c0c0"/>
+                    <circle cx="45" cy="45" r="8" fill="#2a2a2a"/>
+                    <circle cx="38" cy="52" r="4" fill="#2a2a2a"/>
+                    <circle cx="52" cy="55" r="3" fill="#2a2a2a"/>
+                </svg>
+            </div>
+            <span class="logo-text">MOON <span class="logo-light">CODE</span></span>
+        </div>
+        
+        <div class="search-container">
+            <input type="text" class="search-bar" placeholder="Busca aquí">
+            <button class="search-btn">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <path d="m21 21-4.35-4.35"></path>
+                </svg>
+            </button>
+        </div>
+
+        <div class="header-controls">
+            <button class="theme-toggle">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+            </button>
+            <div class="user-avatar"></div>
+        </div>
     </header>
-    <main>
-        <section class="cart-items">
+
+    <!-- Sidebar -->
+    <nav class="sidebar">
+        <a href="pagina_inicio.html" class="nav-button">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+            <span>INICIO</span>
+        </a>
+
+        <a href="categoria.html" class="nav-button">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="7" height="7"></rect>
+                <rect x="14" y="3" width="7" height="7"></rect>
+                <rect x="14" y="14" width="7" height="7"></rect>
+                <rect x="3" y="14" width="7" height="7"></rect>
+            </svg>
+            <span>CATEGORIA</span>
+        </a>
+
+        <a href="inventario.html" class="nav-button">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="3" y1="9" x2="21" y2="9"></line>
+                <line x1="9" y1="21" x2="9" y2="9"></line>
+            </svg>
+            <span>INVENTARIO</span>
+        </a>
+
+        <a href="carrito.html" class="nav-button active">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="9" cy="21" r="1"></circle>
+                <circle cx="20" cy="21" r="1"></circle>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+            </svg>
+            <span>TU CARRITO</span>
+        </a>
+
+        <a href="ayuda.html" class="nav-button">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+            </svg>
+            <span>AYUDA</span>
+        </a>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <h1 class="page-title">Tu carrito</h1>
+        
+        <div class="cart-container">
+            <div class="cart-header">
+                <div class="header-col">Producto</div>
+                <div class="header-col">Descripcion</div>
+                <div class="header-col">Precio</div>
+                <div class="header-col">Cantidad</div>
+                <div class="header-col"></div>
+            </div>
+
+            <!-- Example cart item - this will be dynamically generated -->
             <div class="cart-item">
-                <img src="../Images/product1.jpg" alt="Producto 1">
-                <div class="item-details">
-                    <h2>Producto 1</h2>
-                    <p>Descripción del producto 1.</p>
-                    <p>Precio: $10.00</p>
-                    <label for="quantity1">Cantidad:</label>
-                    <input type="number" id="quantity1" name="quantity1" value="1" min="1">
+                <div class="product-name">
+                    <span class="product-badge">CPU</span>
+                </div>
+                <div class="product-description">I5 10400F 3.5HZ</div>
+                <div class="product-price">$3,251</div>
+                <div class="product-quantity">1</div>
+                <div class="product-actions">
+                    <button class="btn-delete">Eliminar Producto</button>
                 </div>
             </div>
-            <div class="cart-item">
-                <img src="../Images/product2.jpg" alt="Producto 2">
-                <div class="item-details">
-                    <h2>Producto 2</h2>
-                    <p>Descripción del producto 2.</p>
-                    <p>Precio: $20.00</p>
-                    <label for="quantity2">Cantidad:</label>
-                    <input type="number" id="quantity2" name="quantity2" value="1" min="1">
-                </div>
-            </div>
-        </section>
-        <section class="cart-summary">
-            <h2>Resumen del Carrito</h2>
-            <p>Total: $30.00</p>
-            <button class="checkout-button">Proceder al Pago</button>
-        </section>
+
+            <!-- Empty state - show when cart is empty -->
+            <!-- <div class="empty-cart">
+                <p>Tu carrito está vacío</p>
+            </div> -->
+        </div>
     </main>
-    <footer>
-        <p>&copy; 2024 Mi Tienda. Todos los derechos reservados.</p>
-    </footer>
-
-
-
+</body>
+</html>
