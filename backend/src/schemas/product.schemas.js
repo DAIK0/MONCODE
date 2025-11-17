@@ -17,6 +17,10 @@ export const productSchema = z.object({
                     .min(0, {error: 'La cantidad debe ser mayor o igual a 0'})
                     .refine( (val)=>!isNaN(val), {error: 'La cantidad debe ser un numero valido'})
             ),
+    description: z.string('Descripción del producto requerida')
+                    .min(5, {error: 'La descripción debe tener al menos 5 caracteres'}),
+    category: z.string('Categoría del producto requerida')
+                    .min(3, {error: 'La categoría debe tener al menos 3 caracteres'}),
 }); //fin de productSchema
 
 export const productUpdateSchema = z.object({
@@ -28,5 +32,9 @@ export const productUpdateSchema = z.object({
                 .int({error:'Cantidad del producto requerida'})
                 .min(0, {error: 'La cantidad debe ser mayor o igual a 0'})
                 .refine( (val)=>!isNaN(val), {error: 'La cantidad debe ser un numero valido'}),
+    description: z.string('Descripción del producto requerida')
+                    .min(5, {error: 'La descripción debe tener al menos 5 caracteres'}),
+    category: z.string('Categoría del producto requerida')
+                    .min(3, {error: 'La categoría debe tener al menos 3 caracteres'}),
     image: z.string('Url de la imagen requerida')
 }); //fin de productUpdateSchema

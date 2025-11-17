@@ -18,11 +18,13 @@ export const getProducts = async (req, res) => {
 //funcuin para crear un producto
 export const createProduct = async (req, res)=>{
     try {
-        const {name, price, quantity} = req.body;
+        const {name, price, quantity, description, category} = req.body;
         const newProduct = new Product({
             name,
             price,
             quantity,
+            description,
+            category,
             image: req.urlImage,
             user: req.user.id
         }); //save = insert into product values (name, price, quantity);
@@ -114,6 +116,8 @@ export const updateProductWithoutImage = async (req, res)=>{
             name: req.body.name,
             price: req.body.price,
             quantity: req.body.quantity,
+            description: req.body.description,
+            category: req.body.category,
             image: req.body.image,
             user: req.user.id
         })
@@ -154,6 +158,8 @@ export const updateProductWithImage = async (req, res)=>{
             name: req.body.name,
             price: req.body.price,
             quantity: req.body.quantity,
+            description: req.body.description,
+            category: req.body.category,
             image: req.urlImage, //nueva url de la imagen actualizada
             user: req.user.id
         })

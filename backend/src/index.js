@@ -3,6 +3,11 @@ import { connectDB } from './db.js';
 import dotenv from 'dotenv';
 import {v2 as cloudinary } from 'cloudinary';
 
+export { authRequired as requireSignIn } from './middlewares/validateToken.js';
+export { isAdmin } from './middlewares/isAdmin.js';
+export { validateSchema } from './middlewares/validateSchema.js';
+
+
 //Configuramos la lectura de variables de entorno 
 //para configurar la conexion cloudinary
 dotenv.config();
