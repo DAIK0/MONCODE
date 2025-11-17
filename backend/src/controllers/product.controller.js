@@ -18,11 +18,20 @@ export const getProducts = async (req, res) => {
 //funcuin para crear un producto
 export const createProduct = async (req, res)=>{
     try {
+        if (!req.file) {
+            return res.status(400).json({message: 'La imagen del producto es requerida'});
+        }
+        
+        if (!req.urlImage) {
+            return res.status(500).json({message: 'Error al procesar la imagen en Cloudinary'});
+        }
+
         const {name, price, quantity, description, category} = req.body;
+        
         const newProduct = new Product({
             name,
-            price,
-            quantity,
+            price: Number(price),
+            quantity: Number(quantity),
             description,
             category,
             image: req.urlImage,
@@ -33,7 +42,7 @@ export const createProduct = async (req, res)=>{
     } catch (error) {
         console.log(error);
         res.status(500)
-            .json({message: ['Error al crear un producto']})
+            .json({message: ['Error al crear un producto: ' + error.message]})
     }
 };//fin de createProduct
 
@@ -140,7 +149,7 @@ export const updateProductWithImage = async (req, res)=>{
 
         if (!req.file)
                 return res.status(500)
-                          .json({message:['Error al actualizr el producto, imagen no encontrada']})
+                          .json({message:['Error al actualizar el producto, imagen no encontrada']})
 
         //eliminamos la imagen anterior de cloudinary
         const imageUrl = product.image;
