@@ -1,22 +1,21 @@
-"use client"
-
-import { useState } from "react"
-import Header from "./components/Header"
-import Sidebar from "./components/Sidebar"
-import MainContent from "./components/MainContent"
-
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import RegisterPage from "./pages/register.jsx";
+import LoginPage from "./pages/login.jsx";
+import { AuthProvider } from "./context/Authcontext.jsx";
 function App() {
-  const [isDarkMode, setIsDarkMode] = useState(false)
-
   return (
-    <div className="flex h-screen bg-[#f5f5f5]">
-      <Sidebar />
-      <div className="flex-1 flex flex-col ml-[120px]">
-        <Header isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
-        <MainContent />
-      </div>
-    </div>
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+
+          <Route path="/" element={<h1>Home</h1>} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/login" element={<LoginPage />} />
+
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   )
 }
 
-export default App
+export default App;
