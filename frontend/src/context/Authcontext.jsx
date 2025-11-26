@@ -29,17 +29,24 @@ export const AuthProvider = ({ children }) => {
         }
     }//fin de signUp
 
-    const singnIn = async (user) => {
+    const singIn = async (user) => {
         try {
             const res = await login(user);
             console.log(res.data);
+            if (res.data.role === ROLE_ADMIN) {
+                setIsAdmin(true);
+            }
             setUser(res.data);
             setIsAuthenticated(true);
         } catch (error) {
-            console.log(error);
-            setErrors(error.response.data.errors);
+            if (error.response?.data?.menssage) {
+                setErrors([error.response.data.menssage]);
+            } else {
+                setErrors([error.response.data.errors]);
+            }
         }
-    }//fin de singnIn
+    }
+
     useEffect(() => {
         if (errors.length > 0) {
             const timer = setTimeout(() => {
@@ -54,7 +61,7 @@ export const AuthProvider = ({ children }) => {
             isAuthenticated,
             errors,
             signUp,
-            singnIn
+            singIn
 
         }}>
             {children}

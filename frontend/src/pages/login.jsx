@@ -76,7 +76,7 @@ function Login() {
                     }
                     <form onSubmit={handleSubmit(onSubmit)}
                         className="space-y-6">
-                        <label>username</label>
+                        <label>Email</label>
                         {/* Campo Email */}
                         <div className="relative">
                             <input

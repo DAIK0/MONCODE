@@ -1,5 +1,5 @@
 import axios from "./axiosInstance";
 
-export const register = (data) => axios.post("/register", data);
+export const register = user => axios.post("/register", user);
 
-export const login = (data) => axios.post("/login", data);
+export const login = user => axios.post("/login", user);
