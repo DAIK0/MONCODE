@@ -1,35 +1,23 @@
-import { email, z } from 'zod';
+import { z } from 'zod';
 
 export const registerSchema = z.object({
-    username: z.string('Nombre de usuario requerido')
-        .min(5,
-            { error: 'El nombre de ususario debe tener al menos 5 caracteres' }),
-    email: z.email({
-        error: (email) => email.input === undefined ? 'Email es requerido'
-            : 'Formato de Email invalido'
-    })
-        .max(30, {
-            error: 'El email debe tener menos de 30 caracteres'
-        }),
-    password: z.string('Contraseña requerida')
-        .min(6, {
-            error: 'El password debe tener al menos 6 caracteres'
-        })
-        .max(30, {
-            error: 'El password debe tener menos de 30 caracteres'
-        }),
-    confirm: z.string('Confirmar password requerido')
-        .min(6, {
-            error: 'El password debe tener al menos 6 caracteres'
-        })
-        .max(30, {
-            error: 'El password debe tener menos de 50 caracteres'
-        })
-})
+    username: z.string({ required_error: 'Nombre de usuario requerido' })
+        .min(5, { message: 'El nombre de usuario debe tener al menos 5 caracteres' }),
 
+    email: z.string({ required_error: 'Email es requerido' })
+        .email({ message: 'Formato de email inválido' })
+        .min(5, { message: 'El email debe tener al menos 5 caracteres' })
+        .max(30, { message: 'El email debe tener menos de 30 caracteres' }),
+
+    password: z.string({ required_error: 'Contraseña requerida' })
+        .min(6, { message: 'El password debe tener al menos 6 caracteres' })
+        .max(30, { message: 'El password debe tener menos de 30 caracteres' }),
+
+    confirm: z.string({ required_error: 'Confirmar password requerido' })
+        .min(6, { message: 'El password debe tener al menos 6 caracteres' })
+        .max(30, { message: 'El password debe tener menos de 50 caracteres' })
+})
     .refine((data) => data.password === data.confirm, {
-        message: 'Las contraseñas no coinciden',
+        message: 'Las contraseñas no coinciden',
         path: ['confirm']
     });
-
-

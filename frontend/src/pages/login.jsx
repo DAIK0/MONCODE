@@ -7,23 +7,21 @@ import { loginSchema } from '../Schema/LoginSchema';
 import { IoPersonAdd, IoLogIn, IoEyeSharp, IoEyeOffSharp } from 'react-icons/io5';
 
 
-function login() {
+function Login() {
     const { register, handleSubmit,
         formState: { errors }
     } = useForm({
         resolver: zodResolver(loginSchema)
     });
 
-    const { singnIn, isAuthenticated, errors: loginErrors } = useAuth();
+    const { singIn, isAuthenticated, errors: loginErrors } = useAuth();
     const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
 
     const togglePasswordVisibility = () => {
         setShowPassword(showPassword ? false : true);
     }
-    const togglePasswordVisibilityConfirm = () => {
-        setShowPassword(showPassword ? false : true);
-    }
+
 
     useEffect(() => {
         if (isAuthenticated) {
@@ -31,10 +29,10 @@ function login() {
         }
     }, [isAuthenticated]);//Fin de useEffect
 
-    const onSubmit = handleSubmit(async (values) => {
+    const onSubmit = async (values) => {
         console.log(values);
-        signUp(values);
-    })//Fin de onSubmit
+        singIn(values);
+    }//Fin de onSubmit
 
     return (
         <div className="min-h-screen bg-[#4a4a4a] flex">
@@ -114,7 +112,7 @@ function login() {
 
                                 showPassword ? <IoEyeSharp size={30} className="absolute mr-2 w-10"
                                     onClick={togglePasswordVisibility} /> :
-                                    <IoEyeOffSharp size={30} className="absolute mr-2 w-10"
+                                    <IoEyeOffSharp size={30} className="absolute right-3 top-3 cursor-pointer"
                                         onClick={togglePasswordVisibility} />
                             }
                             {
@@ -136,9 +134,10 @@ function login() {
 
                     {/* Link Iniciar Sesión */}
                     <div className="text-center mt-8">
-                        <span className="text-gray-300 text-sm">¿No tienes una cuenta? </span>
+                        <span className="text-gray-300 text-sm">
+                            ¿No tienes una cuenta? </span>
                         <Link to="/register" className="text-[#4ade80] hover:text-[#3bc970] text-sm font-medium">
-                            Inicia Sesión
+                            Registrarse
                             <IoLogIn size={30} className="mx-1" />
                         </Link>
                     </div>
@@ -148,4 +147,4 @@ function login() {
     )
 }
 
-export default login
+export default Login

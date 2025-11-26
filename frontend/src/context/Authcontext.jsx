@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import { register } from "../api/auth";
+import { register, login } from "../api/auth";
 import { set } from "zod";
 
 
@@ -31,7 +31,7 @@ export const AuthProvider = ({ children }) => {
 
     const singnIn = async (user) => {
         try {
-            const res = await register(user);
+            const res = await login(user);
             console.log(res.data);
             setUser(res.data);
             setIsAuthenticated(true);

@@ -1,13 +1,13 @@
 import { useForm } from "react-hook-form";
 import { useAuth } from "../context/Authcontext";
 import { useEffect, useState } from "react";
-import { useNavigate, Link } from 'react-router';
+import { useNavigate, Link } from 'react-router-dom';
 import { zodResolver } from '@hookform/resolvers/zod'
 import { registerSchema } from "../Schema/RegisterSchema";
 import { IoPersonAdd, IoLogIn, IoEyeSharp, IoEyeOffSharp } from 'react-icons/io5';
 
 
-function register() {
+function Register() {
     const { register, handleSubmit,
         formState: { errors }
     } = useForm({
@@ -17,12 +17,13 @@ function register() {
     const { signUp, isAuthenticated } = useAuth();
     const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
+    const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
 
     const togglePasswordVisibility = () => {
         setShowPassword(showPassword ? false : true);
     }
     const togglePasswordVisibilityConfirm = () => {
-        setShowPassword(showPassword ? false : true);
+        setShowPasswordConfirm(!showPasswordConfirm);
     }
 
     useEffect(() => {
@@ -31,10 +32,10 @@ function register() {
         }
     }, [isAuthenticated]);//Fin de useEffect
 
-    const onSubmit = handleSubmit(async (values) => {
+    const onSubmit = async (values) => {
         console.log(values);
         signUp(values);
-    })//Fin de onSubmit
+    }//Fin de onSubmit
 
     return (
         <div className="min-h-screen bg-[#4a4a4a] flex">
@@ -94,7 +95,7 @@ function register() {
                         {/* Campo Email */}
                         <div className="relative">
                             <input
-                                {...register("email", { required: true })}
+                                {...register("email")}
                                 type="email"
                                 placeholder="email"
                                 style={{
@@ -114,7 +115,7 @@ function register() {
                         {/* Campo Contraseña */}
                         <div className="relative">
                             <input
-                                {...register("password", { required: true })}
+                                {...register("password")}
                                 type={showPassword ? "text" : "password"}
                                 placeholder="Contraseña"
                                 style={{
@@ -139,23 +140,24 @@ function register() {
                         {/* Campo Repetir Contraseña */}
                         <div className="relative">
                             <input
-                                {...register("confirmPassword", { required: true, minLength: 6 })}
-                                type="password"
+                                {...register("confirm")}
+                                type={showPasswordConfirm ? "text" : "password"}
                                 placeholder="Repita la contraseña"
                                 style={{
-                                    border: errors.confirmPassword ? '1px solid red' : '1px solid #d1d5db',
+                                    border: errors.confirm ? '1px solid red' : '1px solid #d1d5db',
                                 }}
                                 className="w-full px-4 py-3 bg-[#d1d5db] text-gray-700 placeholder-gray-500 rounded-full focus:outline-none focus:ring-2 focus:ring-[#8b7355]"
                             />
+
                             {
-                                togglePasswordVisibilityConfirm ? <IoEyeSharp size={30} className="absolute mr-2 w-10"
+                                showPasswordConfirm ? <IoEyeSharp size={30} className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer text-gray-600"
                                     onClick={togglePasswordVisibilityConfirm} /> :
-                                    <IoEyeOffSharp size={30} className="absolute mr-2 w-10"
-                                        onClick={togglePasswordVisibility2} />
+                                    <IoEyeOffSharp size={30} className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer text-gray-600"
+                                        onClick={togglePasswordVisibilityConfirm} />
                             }
                             {
-                                errors.confirmPassword && (
-                                    <span className="text-blue-500">{errors.confirmPassword.message}</span>
+                                errors.confirm && (
+                                    <span className="text-blue-500">{errors.confirm.message}</span>
                                 )
                             }
                         </div>
@@ -185,4 +187,4 @@ function register() {
     )
 }
 
-export default register
+export default Register
