@@ -67,13 +67,15 @@ function Login() {
             <div className="w-full lg:w-1/2 flex items-center justify-center p-8">
                 <div className="w-full max-w-md">
                     <h2 className="text-4xl font-light text-white mb-12 text-center lg:text-right">Iniciar Sesión </h2>
-                    {
+                    {loginErrors.length > 0 && (
                         loginErrors.map((error, i) => (
-                            <div className="text-red-500" text-white key={i}>
-                                {error}
+                            <div key={i} className="flex items-center gap-2 bg-red-600 text-white px-4 py-2 rounded-full shadow-md w-fit mx-auto">
+                                <span className="text-lg"><IoPersonAdd /></span>
+                                <span className="font-semibold text-sm">{error} </span>
                             </div>
                         ))
-                    }
+
+                    )}
                     <form onSubmit={handleSubmit(onSubmit)}
                         className="space-y-6">
                         <label>Email</label>

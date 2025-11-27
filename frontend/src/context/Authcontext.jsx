@@ -36,14 +36,13 @@ export const AuthProvider = ({ children }) => {
             if (res.data.role === ROLE_ADMIN) {
                 setIsAdmin(true);
             }
+            setErrors([]);
             setUser(res.data);
             setIsAuthenticated(true);
         } catch (error) {
-            if (error.response?.data?.menssage) {
-                setErrors([error.response.data.menssage]);
-            } else {
-                setErrors([error.response.data.errors]);
-            }
+            const data = error.response?.data;
+            const mensaje = data?.message || data?.errors?.[0] || "Error al iniciar sesión";
+            setErrors([mensaje]);
         }
     }
 
