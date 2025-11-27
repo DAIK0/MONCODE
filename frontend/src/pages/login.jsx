@@ -24,7 +24,9 @@ function Login() {
 
 
     useEffect(() => {
+
         if (isAuthenticated) {
+            console.log("Sesion iniciada: ", isAuthenticated);
             navigate("/home");
         }
     }, [isAuthenticated]);//Fin de useEffect

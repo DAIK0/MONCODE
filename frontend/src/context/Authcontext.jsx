@@ -1,6 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { register, login } from "../api/auth";
-import { set } from "zod";
 
 
 export const AuthContext = createContext();
@@ -16,7 +15,9 @@ export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [errors, setErrors] = useState([]);
+    const [isAdmin, setIsAdmin] = useState(false);
 
+    const ROLE_ADMIN = import.meta.env.VITE_ROLE_ADMIN;
 
     const signUp = async (user) => {
         try {
@@ -32,7 +33,7 @@ export const AuthProvider = ({ children }) => {
     const singIn = async (user) => {
         try {
             const res = await login(user);
-            console.log(res.data);
+            console.log(res);
             if (res.data.role === ROLE_ADMIN) {
                 setIsAdmin(true);
             }
@@ -40,6 +41,7 @@ export const AuthProvider = ({ children }) => {
             setUser(res.data);
             setIsAuthenticated(true);
         } catch (error) {
+            console.log(error)
             const data = error.response?.data;
             const mensaje = data?.message || data?.errors?.[0] || "Error al iniciar sesión";
             setErrors([mensaje]);
@@ -60,8 +62,8 @@ export const AuthProvider = ({ children }) => {
             isAuthenticated,
             errors,
             signUp,
-            singIn
-
+            singIn,
+            isAdmin
         }}>
             {children}
         </AuthContext.Provider>
