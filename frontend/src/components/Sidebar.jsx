@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom"
-import { FiHome, FiGrid, FiShoppingCart, FiHelpCircle } from "react-icons/fi"
+import { FiHome, FiGrid, FiShoppingCart, FiHelpCircle, FiUser, FiBox } from "react-icons/fi"
 
 function Sidebar() {
     const location = useLocation();
@@ -8,7 +8,7 @@ function Sidebar() {
     const isActive = (path) => path === location.pathname;
 
     return (
-        <div className="fixed left-0 top-20 h-[calc(100vh-5rem)] w-32 bg-[#4a4a4a] rounded-r-3xl flex flex-col items-center py-8 gap-8">
+        <div className="fixed left-0 top-20 bottom-0 w-32 bg-[#4a4a4a] rounded-r-3xl flex flex-col items-center py-8 gap-8 overflow-y-auto">
             {/* INICIO */}
             <Link
                 to="/"
@@ -43,6 +43,17 @@ function Sidebar() {
                 </span>
             </Link>
 
+            {/*inventario*/}
+            <Link
+                to="/inventario"
+                className={`flex flex-col items-center gap-2 w-24 py-4 rounded-2xl transition-colors ${isActive("/inventario") ? "bg-[#5a5a5a]" : "hover:bg-[#5a5a5a]"
+                    }`}
+            >
+                <FiBox size={32} className="text-white" />
+                <span className="text-white text-xs font-light">INVENTARIO</span>
+            </Link>
+
+
             {/* AYUDA */}
             <Link
                 to="/ayuda"
@@ -51,6 +62,18 @@ function Sidebar() {
             >
                 <FiHelpCircle size={32} className="text-white" />
                 <span className="text-white text-xs font-light">AYUDA</span>
+            </Link>
+
+
+
+            {/* PERFIL */}
+            <Link
+                to="/perfil"
+                className={`flex flex-col items-center gap-2 w-24 py-4 rounded-2xl transition-colors ${isActive("/perfil") ? "bg-[#5a5a5a]" : "hover:bg-[#5a5a5a]"
+                    }`}
+            >
+                <FiUser size={32} className="text-white" />
+                <span className="text-white text-xs font-light">PERFIL</span>
             </Link>
         </div>
     )
