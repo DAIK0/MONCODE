@@ -46,7 +46,7 @@ function Sidebar() {
             {/*inventario*/}
             <Link
                 to="/inventario"
-                className={`flex flex-col items-center gap-2 w-24 py-4 rounded-2xl transition-colors ${isActive("/inventario") ? "bg-[#5a5a5a]" : "hover:bg-[#5a5a5a]"
+                className={`flex flex-col items-center gap-2 w-24 py-4 rounded-2xl transition-colors ${isActive("/inventario") ? "bg-[#eb0e0e]" : "hover:bg-[#5a5a5a]"
                     }`}
             >
                 <FiBox size={32} className="text-white" />
