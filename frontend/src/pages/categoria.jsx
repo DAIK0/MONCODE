@@ -1,4 +1,4 @@
-import Header from "../components/Header";
+import Header from "../components/HeaderUser";
 import Sidebar from "../components/Sidebar";
 
 function categoria() {
@@ -10,6 +10,7 @@ function categoria() {
             {/* Contenido principal */}
             <main className="ml-32 mt-20 p-8">
                 {/* Sección NOVEDADES */}
+
 
             </main>
         </div>

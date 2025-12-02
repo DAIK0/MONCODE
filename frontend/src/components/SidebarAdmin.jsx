@@ -1,23 +1,31 @@
 import { Link, useLocation } from "react-router-dom"
-import { FiHome, FiGrid, FiShoppingCart, FiHelpCircle, FiUser, FiBox } from "react-icons/fi"
+import { FiHome, FiGrid, FiHelpCircle, FiUser, FiBox, FiLogOut } from "react-icons/fi"
+import { useAuth } from "../context/Authcontext.jsx";
+import { useNavigate } from "react-router-dom";
 
-function Sidebar() {
+
+function SidebarAdmin() {
+    const { user, logOut } = useAuth();
     const location = useLocation();
     const path = location.pathname;
+    const navigate = useNavigate();
 
     const isActive = (path) => path === location.pathname;
 
     return (
+
         <div className="fixed left-0 top-20 bottom-0 w-32 bg-[#0094f7] rounded-r-3xl flex flex-col items-center py-8 gap-8 overflow-y-auto">
+
             {/* INICIO */}
             <Link
-                to="/"
+                to="/home"
                 className={`flex flex-col items-center gap-2 w-24 py-4 rounded-2xl transition-colors ${isActive("/") ? "bg-[#5a5a5a]" : "hover:bg-[#5a5a5a]"
                     }`}
             >
                 <FiHome size={32} className="text-white" />
                 <span className="text-white text-xs font-light">INICIO</span>
             </Link>
+
 
             {/* CATEGORIA */}
             <Link
@@ -28,7 +36,6 @@ function Sidebar() {
                 <FiGrid size={32} className="text-white" />
                 <span className="text-white text-xs font-light">CATEGORIA</span>
             </Link>
-
 
 
             {/*inventario*/}
@@ -56,15 +63,31 @@ function Sidebar() {
 
             {/* PERFIL */}
             <Link
-                to="/perfil"
+                to='/perfil'
                 className={`flex flex-col items-center gap-2 w-24 py-4 rounded-2xl transition-colors ${isActive("/perfil") ? "bg-[#5a5a5a]" : "hover:bg-[#5a5a5a]"
                     }`}
             >
+
                 <FiUser size={32} className="text-white" />
-                <span className="text-white text-xs font-light">PERFIL</span>
+                <span className="text-white text-xs font-light">
+                    {user.username}
+                </span>
             </Link>
+
+            {/* CERRAR SESIÓN */}
+            <button
+                onClick={() => {
+                    logOut();
+                    navigate("/login");
+                }}
+                className="flex flex-col items-center gap-2 w-24 py-4 rounded-2xl transition-colors hover:bg-[#5a5a5a]"
+            >
+                <FiLogOut size={32} className="text-white" />
+                <span className="text-white text-xs font-light">CERRAR SESIÓN</span>
+            </button>
+
         </div>
     )
 }
 
-export default Sidebar
+export default SidebarAdmin

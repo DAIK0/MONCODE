@@ -9,10 +9,12 @@ import InventarioPage from "./pages/inventario.jsx";
 import PerfilPage from "./pages/perfil.jsx";
 import CarritoPage from "./pages/carrito.jsx";
 import CategoriaPage from "./pages/categoria.jsx";
+import Sidebar from "./components/Sidebar.jsx";
 function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
+        <Sidebar />
         <Routes>
 
           <Route path="/" element={<HomePage />} />

@@ -8,6 +8,8 @@ export const logout = () => axios.post("/logout");
 
 export const profile = () => axios.get("/profile");
 
+export const verifyToken = () => axios.get('/verifique');
+
 
 
 

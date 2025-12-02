@@ -1,4 +1,4 @@
-import Header from "../components/Header";
+import Header from "../components/HeaderUser";
 import Sidebar from "../components/Sidebar";
 import { useState } from "react";
 import { AiOutlineDown, AiOutlineUp } from "react-icons/ai";
