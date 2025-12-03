@@ -14,7 +14,8 @@ export default function Ayuda() {
                         Se instala en la ranura PCI-Express de la placa madre y requiere, en muchos casos, conectores adicionales de energía.
                     </p>
                     <p>
-                        Tipos: Integradas (en el procesador) y dedicadas (NVIDIA, AMD). Curiosidad: las GPUs modernas también se usan para inteligencia artificial y minería de criptomonedas.
+                        Tipos: Integradas (en el procesador) y dedicadas (NVIDIA, AMD). Curiosidad: las GPUs modernas también se usan para inteligencia artificial
+                        y minería de criptomonedas.
                     </p>
                     <img
                         src="https://i.imgur.com/tGPU0gO.jpeg"
@@ -35,7 +36,8 @@ export default function Ayuda() {
                         Es el circuito principal donde se conectan todos los componentes. Define compatibilidad de procesadores (sockets), memoria RAM y tarjetas gráficas.
                     </p>
                     <p>
-                        Tipos: ATX, micro-ATX, mini-ITX. Instalación: se fija al gabinete con tornillos y separadores. Curiosidad: algunas placas incluyen iluminación RGB y Wi-Fi integrado.
+                        Tipos: ATX, micro-ATX, mini-ITX. Instalación: se fija al gabinete con tornillos y separadores. Curiosidad: algunas placas incluyen iluminación RGB y
+                        Wi-Fi integrado.
                     </p>
                 </div>
             )
@@ -45,7 +47,8 @@ export default function Ayuda() {
             content: (
                 <div className="space-y-2">
                     <p>
-                        Es la unidad central de procesamiento (CPU), responsable de ejecutar instrucciones. Se instala en el socket de la placa madre con pasta térmica y disipador.
+                        Es la unidad central de procesamiento (CPU), responsable de ejecutar instrucciones. Se instala en el socket de la placa madre con pasta térmica y
+                        disipador.
                     </p>
                     <p>
                         Tipos: Intel (Core i3, i5, i7, i9) y AMD (Ryzen 3, 5, 7, 9). Curiosidad: los procesadores modernos tienen miles de millones de transistores.
@@ -62,6 +65,9 @@ export default function Ayuda() {
                     </p>
                     <p>
                         Instalación: se coloca sobre CPU/GPU con pasta térmica. Curiosidad: algunos sistemas usan nitrógeno líquido para récords de overclocking.
+                    </p>
+                    <p>
+                        Curiosidad: algunos sistemas usan nitrógeno líquido para récords de overclocking.
                     </p>
                 </div>
             )

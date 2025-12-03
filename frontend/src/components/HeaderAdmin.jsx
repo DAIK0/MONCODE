@@ -5,7 +5,7 @@ function Header() {
     const [darkMode, setDarkMode] = useState(true);
 
     return (
-        <header className="fixed top-0 left-0 right-0 h-20 bg-[#0084ff] flex items-center justify-between px-4 md:px-8 z-50">
+        <header className="fixed top-0 left-0 right-0 h-20 bg-[#3a3a3a] flex items-center justify-between px-4 md:px-8 z-50">
             {/* Logo */}
             <div className="flex items-center gap-4">
                 <img

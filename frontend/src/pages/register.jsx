@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useAuth } from "../context/Authcontext";
 import { useEffect, useState } from "react";
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router';
 import { zodResolver } from '@hookform/resolvers/zod'
 import { registerSchema } from "../Schema/RegisterSchema";
 import { IoPersonAdd, IoLogIn, IoEyeSharp, IoEyeOffSharp } from 'react-icons/io5';

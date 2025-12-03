@@ -10,13 +10,10 @@ function Sidebar() {
         return <SidebarAdmin />;
     } else if (isAuthenticated) {
         return <SidebarUser />;
-    } else {
+    } /*else {
         return <Navigate to="/login" />;
-    }
-    return (
-        <div>
-        </div>
-    )
+    }*/
+
 }
 
 export default Sidebar

@@ -1,7 +1,7 @@
-import { Link, useLocation } from "react-router-dom"
+import { Link, useLocation } from "react-router"
 import { FiHome, FiGrid, FiHelpCircle, FiUser, FiBox, FiLogOut } from "react-icons/fi"
 import { useAuth } from "../context/Authcontext.jsx";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 
 function SidebarAdmin() {
@@ -14,7 +14,7 @@ function SidebarAdmin() {
 
     return (
 
-        <div className="fixed left-0 top-20 bottom-0 w-32 bg-[#0094f7] rounded-r-3xl flex flex-col items-center py-8 gap-8 overflow-y-auto">
+        <div className="fixed left-0 top-20 bottom-0 w-32 bg-[#ff0000] rounded-r-3xl flex flex-col items-center py-8 gap-8 overflow-y-auto">
 
             {/* INICIO */}
             <Link
