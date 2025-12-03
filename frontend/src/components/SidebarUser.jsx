@@ -1,7 +1,7 @@
-import { Link, useLocation } from "react-router"
+import { Link, useLocation } from "react-router-dom"
 import { FiHome, FiGrid, FiShoppingCart, FiHelpCircle, FiUser, FiBox, FiLogOut } from "react-icons/fi"
 import { useAuth } from "../context/Authcontext.jsx";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 
 function Sidebar() {
     const { user, logOut } = useAuth();
