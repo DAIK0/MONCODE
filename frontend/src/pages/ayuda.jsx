@@ -10,18 +10,20 @@ export default function Ayuda() {
             content: (
                 <div className="space-y-2">
                     <p>
-                        También llamada tarjeta de video o GPU dedicada, es una tarjeta de expansión que contiene una unidad de procesamiento gráfico (GPU).
-                        Se instala en la ranura PCI-Express de la placa madre y requiere, en muchos casos, conectores adicionales de energía.
+                        También llamada tarjeta de video o GPU dedicada, es una tarjeta de expansión
+                        que contiene una unidad de procesamiento gráfico (GPU).
                     </p>
                     <p>
-                        Tipos: Integradas (en el procesador) y dedicadas (NVIDIA, AMD). Curiosidad: las GPUs modernas también se usan para inteligencia artificial
-                        y minería de criptomonedas.
+                        Tipos: Integradas y dedicadas. Curiosidad: las GPUs modernas también se usan
+                        para IA y minería.
                     </p>
+
                     <img
                         src="https://i.imgur.com/tGPU0gO.jpeg"
                         alt="Tarjeta gráfica"
                         className="rounded-lg shadow-md w-full max-w-md"
                     />
+
                     <video controls className="rounded-lg shadow-md w-full max-w-md">
                         <source src="/videos/gpu.mp4" type="video/mp4" />
                     </video>
@@ -163,37 +165,46 @@ export default function Ayuda() {
                 </div>
             )
         }
+
+        // ... resto de items sin cambios
     ];
 
     const [openIndex, setOpenIndex] = useState(null);
-
-    const toggleItem = (index) => {
-        setOpenIndex(openIndex === index ? null : index);
-    };
+    const toggleItem = (index) => setOpenIndex(openIndex === index ? null : index);
 
     return (
-        <div className="min-h-screen bg-[#e5e5e5]">
+        <div className="min-h-screen bg-[#e5e5e5] dark:bg-[#1e1e1e] transition-colors">
             <Header />
             <Sidebar />
 
             <main className="ml-32 mt-20 p-8">
+
                 {/* Desplegables */}
-                <div className="border-b-2 border-gray-300 pb-6 mb-6">
+                <div className="border-b-2 border-gray-300 dark:border-gray-600 pb-6 mb-6">
                     {items.map((item, index) => (
                         <div key={index} className="mb-4">
+
                             {/* Botón */}
                             <button
                                 onClick={() => toggleItem(index)}
-                                className="w-full flex justify-between items-center bg-white p-4 rounded-lg shadow-sm cursor-pointer hover:bg-gray-100 transition"
+                                className="
+                                w-full flex justify-between items-center 
+                                bg-white dark:bg-[#2a2a2a]
+                                p-4 rounded-lg shadow-sm cursor-pointer 
+                                hover:bg-gray-100 dark:hover:bg-[#3a3a3a]
+                                transition
+                                "
                             >
-                                <span className="text-xl font-bold text-gray-900">
+                                <span
+                                    className="text-xl font-bold text-gray-900 dark:text-white"
+                                >
                                     {item.title}
                                 </span>
 
                                 {openIndex === index ? (
-                                    <AiOutlineUp className="text-2xl text-gray-700" />
+                                    <AiOutlineUp className="text-2xl text-gray-700 dark:text-gray-300" />
                                 ) : (
-                                    <AiOutlineDown className="text-2xl text-gray-700" />
+                                    <AiOutlineDown className="text-2xl text-gray-700 dark:text-gray-300" />
                                 )}
                             </button>
 
@@ -202,30 +213,46 @@ export default function Ayuda() {
                                 className={`transition-all duration-300 overflow-hidden ${openIndex === index ? "max-h-[800px] mt-2" : "max-h-0"
                                     }`}
                             >
-                                <div className="bg-white p-4 rounded-lg shadow-sm text-gray-700">
+                                <div
+                                    className="
+                                    bg-white dark:bg-[#2a2a2a]
+                                    p-4 rounded-lg shadow-sm 
+                                    text-gray-700 dark:text-gray-300
+                                    "
+                                >
                                     {item.content}
                                 </div>
                             </div>
+
                         </div>
                     ))}
                 </div>
 
-                {/* Area de ayuda general */}
-                <div className="bg-white p-6 rounded-lg shadow-lg">
-                    <h1 className="text-4xl font-bold mb-4 text-gray-800">Ayuda y Soporte</h1>
-                    <p className="text-gray-600 mb-6">
-                        Bienvenido a la sección de ayuda. Aquí encontrarás respuestas a las preguntas más frecuentes.
+                {/* Área de ayuda general */}
+                <div className="bg-white dark:bg-[#2a2a2a] p-6 rounded-lg shadow-lg transition-colors">
+                    <h1 className="text-4xl font-bold mb-4 text-gray-800 dark:text-white">
+                        Ayuda y Soporte
+                    </h1>
+
+                    <p className="text-gray-600 dark:text-gray-400 mb-6">
+                        Bienvenido a la sección de ayuda. Aquí encontrarás respuestas a las preguntas
+                        más frecuentes.
                     </p>
 
-                    <h2 className="text-2xl font-semibold mb-3 text-gray-800">Preguntas Frecuentes</h2>
-                    <ul className="list-disc pl-5 text-gray-700">
+                    <h2 className="text-2xl font-semibold mb-3 text-gray-800 dark:text-white">
+                        Preguntas Frecuentes
+                    </h2>
+
+                    <ul className="list-disc pl-5 text-gray-700 dark:text-gray-300">
                         <li>¿Cómo puedo crear una cuenta?</li>
                         <li>¿Cómo recupero mi contraseña?</li>
                         <li>¿Cómo contacto al soporte técnico?</li>
                         <li>Información sobre envíos y devoluciones.</li>
                     </ul>
                 </div>
+
             </main>
         </div>
     );
 }
+

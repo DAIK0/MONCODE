@@ -13,52 +13,38 @@ interface Product {
 
 interface ProductInventoryCardProps {
     product: Product
+    onEdit: () => void
+    onDelete: () => void
 }
 
-export function ProductInventoryCard({ product }: ProductInventoryCardProps) {
+export function ProductInventoryCard({ product, onEdit, onDelete }: ProductInventoryCardProps) {
     return (
-        <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow border border-gray-200">
-            <div className="flex gap-2 p-3 bg-gray-100">
-                <button className="flex-1 px-3 py-2 bg-yellow-300 text-black text-sm font-bold rounded hover:bg-yellow-400 transition">
-                    Actualizar info
+        <div className="bg-white rounded-xl p-4 shadow hover:shadow-lg transition">
+            <img
+                src={product.image || "/placeholder.svg"}
+                alt={product.name}
+                className="w-full h-40 object-cover rounded-lg"
+            />
+
+            <h3 className="text-xl font-bold mt-3 text-black">{product.name}</h3>
+            <p className="text-gray-600">{product.description}</p>
+
+            <p className="mt-2 font-semibold text-black">Precio: ${product.price}</p>
+            <p className="font-semibold text-black">Existencias: {product.quantity}</p>
+
+            {/* 🔥 CATEGORÍA AGREGADA AQUÍ */}
+            <p className="font-semibold text-black">
+                Categoría: {product.category}
+            </p>
+
+            <div className="flex justify-between mt-4">
+                <button onClick={onEdit} className="px-3 py-1 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                    Editar
                 </button>
-                <button className="flex-1 px-3 py-2 bg-yellow-400 text-black text-sm font-bold rounded hover:bg-yellow-500 transition">
-                    Actualizar imagen
+
+                <button onClick={onDelete} className="px-3 py-1 bg-red-600 text-white rounded-lg hover:bg-red-700">
+                    Eliminar
                 </button>
-                <button className="flex-1 px-3 py-2 bg-red-600 text-white text-sm font-bold rounded hover:bg-red-700 transition">
-                    Eliminar producto
-                </button>
-            </div>
-
-            <div className="w-full h-56 bg-gray-300 flex items-center justify-center">
-                {product.image ? (
-                    <img src={product.image || "/placeholder.svg"} alt={product.name} className="w-full h-full object-cover" />
-                ) : (
-                    <span className="text-gray-600 font-bold text-lg">IMAGEN</span>
-                )}
-            </div>
-
-            {/* Product content */}
-            <div className="p-4 bg-gray-200">
-                <div className="flex justify-between items-start gap-2 mb-3">
-                    <h3 className="font-bold text-gray-800 text-base flex-1 break-words">Nombre {product.name}</h3>
-                    <span className="font-bold text-gray-800 whitespace-nowrap">${product.price}</span>
-                </div>
-
-                {/* Description */}
-                <div className="mb-3">
-                    <p className="text-sm text-gray-700 line-clamp-2">Description:</p>
-                    <p className="text-xs text-gray-600">{product.description}</p>
-                </div>
-
-                <div className="flex gap-2 pt-3 border-t border-gray-300">
-                    <div className="flex-1 bg-gray-300 rounded px-2 py-2 text-xs text-center">
-                        <p className="text-gray-700 font-semibold">Cantidad: {product.quantity}</p>
-                    </div>
-                    <div className="flex-1 bg-gray-300 rounded px-2 py-2 text-xs text-center">
-                        <p className="text-gray-700 font-semibold">Categoría: {product.category}</p>
-                    </div>
-                </div>
             </div>
         </div>
     )

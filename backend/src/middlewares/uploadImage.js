@@ -1,35 +1,24 @@
 import multer from 'multer';
 import cloudinary from 'cloudinary';
 
-// Configuración de Cloudinary
+// Configuración Cloudinary
 cloudinary.v2.config({
     cloud_name: process.env.CLOUD_NAME,
     api_key: process.env.CLOUD_API_KEY,
     api_secret: process.env.CLOUD_API_SECRET
 });
 
-// Configuración de multer (almacenamiento en memoria)
 const storage = multer.memoryStorage();
 const upload = multer({
-    storage: storage,
-    limits: {
-        fileSize: 5 * 1024 * 1024 // 5MB
-    }
+    storage,
+    limits: { fileSize: 5 * 1024 * 1024 } // 5MB
 }).single('image');
 
 export const uploadToCloudinary = async (req, res, next) => {
     try {
-        const allowedMimes = [
-            'image/jpeg',
-            'image/jpg',
-            'image/png',
-            'image/gif',
-            'image/webp'
-        ];
-
         upload(req, res, async (err) => {
 
-            // Error de tamaño o multer
+            // Error por tamaño o multer
             if (err) {
                 if (err.code === 'LIMIT_FILE_SIZE') {
                     return res.status(400).json({ message: ['Tamaño del archivo excedido'] });
@@ -37,12 +26,20 @@ export const uploadToCloudinary = async (req, res, next) => {
                 return res.status(400).json({ message: ['Error al cargar la imagen'] });
             }
 
-            // No se envió archivo
+            // ⚠️ SI NO HAY ARCHIVO → CONTINÚA SIN ERROR
             if (!req.file) {
-                return res.status(400).json({ message: ['No se encontró la imagen'] });
+                return next();
             }
 
-            // Formato no permitido
+            const allowedMimes = [
+                'image/jpeg',
+                'image/jpg',
+                'image/png',
+                'image/gif',
+                'image/webp'
+            ];
+
+            // Validar formato
             if (!allowedMimes.includes(req.file.mimetype)) {
                 return res.status(400).json({ message: ['Formato de imagen no permitido'] });
             }
@@ -54,7 +51,7 @@ export const uploadToCloudinary = async (req, res, next) => {
             // Subir a Cloudinary
             const uploadResponse = await cloudinary.v2.uploader.upload(dataUri);
 
-            // Guardar la URL para el siguiente middleware
+            // Guardar la URL
             req.urlImage = uploadResponse.url;
 
             console.log("Imagen cargada:", req.file.originalname);
