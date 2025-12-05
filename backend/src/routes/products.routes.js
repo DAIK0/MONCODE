@@ -3,12 +3,12 @@ import { authRequired } from '../middlewares/validateToken.js';
 import {
     getProducts,
     createProduct,
-    getProduct,
+    getProductById,
     deleteProduct,
     updateProductWithoutImage,
     updateProductWithImage,
     getAllProducts
-} from '../controllers/products.controller.js'
+} from '../controllers/product.controller.js'
 
 //Importamos el validationSchema
 import { validateSchema } from '../middlewares/validateSchema.js';
@@ -21,14 +21,16 @@ import { uploadToCloudinary } from '../middlewares/uploadImage.js';
 
 const router = Router();
 
+router.get('/getallproducts', getAllProducts);
+
 //Ruta para obtener todos los productos
 router.get('/products', authRequired, getProducts);
 
 //Ruta para crear un producto
-router.post('/products', authRequired, uploadToCloudinary, validateSchema(productSchema),createProduct);
+router.post('/products', authRequired, uploadToCloudinary, validateSchema(productSchema), createProduct);
 
 //Ruta para obtener un producto por Id
-router.get('/products/:id', authRequired, getProduct);
+router.get('/products/:id', authRequired, getProductById);
 
 //Ruta para eliminar un producto
 router.delete('/products/:id', authRequired, deleteProduct);
@@ -37,10 +39,12 @@ router.delete('/products/:id', authRequired, deleteProduct);
 router.put('/:id', authRequired, validateSchema(productUpdateSchema), updateProductWithoutImage);
 
 //Ruta para actualizar un producto y CAMBIAR la imagen
-router.put('/updatewithimage/:id', authRequired, uploadToCloudinary, 
-                                    validateSchema(productSchema), updateProductWithImage);
+router.put('products/updatewithimage/:id', authRequired, uploadToCloudinary,
+    validateSchema(productSchema), updateProductWithImage);
 
-router.get('/products/getallproducts', getAllProducts);
+router.put('products/updatewithoutimage/:id', authRequired, uploadToCloudinary,
+    validateSchema(productSchema), updateProductWithoutImage);
+
 
 
 export default router;

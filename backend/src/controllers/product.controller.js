@@ -10,7 +10,7 @@ export const getProducts = async (req, res) => {
         res.json(product);
     } catch (error) {
         console.log(error);
-        res.status(500)
+        res.status(501)
             .json({ message: ['Error al obtener los productos'] })
     }
 }; //fin de getProducts
@@ -23,7 +23,7 @@ export const createProduct = async (req, res) => {
         }
 
         if (!req.urlImage) {
-            return res.status(500).json({ message: 'Error al procesar la imagen en Cloudinary' });
+            return res.status(502).json({ message: 'Error al procesar la imagen en Cloudinary' });
         }
 
         const { name, price, quantity, description, category } = req.body;
@@ -41,10 +41,28 @@ export const createProduct = async (req, res) => {
         res.json(savedProduct);
     } catch (error) {
         console.log(error);
-        res.status(500)
+        res.status(503)
             .json({ message: ['Error al crear un producto: ' + error.message] })
     }
 };//fin de createProduct
+
+export const getAllProducts = async (req, res) => {
+    try {
+        console.log(req.query);
+        const category = req.query.category;
+
+        let filter = {};
+        if (category) {
+            filter.category = category;
+        }
+
+        const products = await Product.find(filter);
+        res.json(products);
+    } catch (error) {
+        console.error(error);
+        res.status(5011).json({ message: "Error al obtener productos" });
+    }
+};
 
 //funcion para obtener un producto por ID
 export const getProductById = async (req, res) => {
@@ -57,7 +75,7 @@ export const getProductById = async (req, res) => {
         res.json(product);
     } catch (error) {
         console.log(error);
-        res.status(500)
+        res.status(504)
             .json({ message: ['error al obtener un producto por id'] })
     }
 };//fin de getProductById
@@ -102,12 +120,12 @@ export const deleteProduct = async (req, res) => {
             res.json(deletedProduct);
         } else {
             //error al eliminar la imagen, retornamos el error al usuario
-            return res.status(500)
+            return res.status(505)
                 .json({ message: ['Error al eliminar la imagen del producto'] })
         } //fin de else
     } catch (error) {
         console.log(error);
-        res.status(500)
+        res.status(506)
             .json({ message: ['error al eliminar un producto por'] })
     }
 };//fin de deleteProduct
@@ -134,7 +152,7 @@ export const updateProductWithoutImage = async (req, res) => {
         res.json(updatedProduct);
     } catch (error) {
         console.log(error);
-        res.status(500)
+        res.status(507)
             .json({ message: ['error al obtener un producto por id'] })
     }
 };//fin de updateProductwithoutImage
@@ -148,7 +166,7 @@ export const updateProductWithImage = async (req, res) => {
                 .json({ message: ['Producto no encontrado'] })
 
         if (!req.file)
-            return res.status(500)
+            return res.status(508)
                 .json({ message: ['Error al actualizar el producto, imagen no encontrada'] })
 
         //eliminamos la imagen anterior de cloudinary
@@ -158,7 +176,7 @@ export const updateProductWithImage = async (req, res) => {
         const imageName = image.split('.')[0];
         const result = await cloudinary.uploader.destroy(imageName);
         if (!result.result === 'ok') {
-            return res.status(500)
+            return res.status(509)
                 .json({ message: ['Error al eliminar la imagen del producto'] })
         } //fin de else
 
@@ -176,26 +194,11 @@ export const updateProductWithImage = async (req, res) => {
         res.json(updatedProduct);
     } catch (error) {
         console.log(error);
-        res.status(500)
+        res.status(510)
             .json({ message: ['error al obtener un producto por id'] })
     }
 };//fin de updateProduct
 
-//funcion para obtener todos los productos de todos los usuarios 
+//funcion para obtener todos los productos de todos los usuarios
 //para la compra de productos
-export const getAllProducts = async (req, res) => {
-    try {
-        const category = req.query.category;
 
-        let filter = {};
-        if (category) {
-            filter.category = category;
-        }
-
-        const products = await Product.find(filter);
-        res.json(products);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: "Error al obtener productos" });
-    }
-};
