@@ -1,107 +1,99 @@
-"use client";
+"use client"
 
-import { useEffect, useState } from "react";
-import axiosInstance from "../api/axiosInstance";
-import { ProductInventoryCard } from "./ProductInventoryCard";
+import { useEffect, useState } from "react"
+
+import axiosInstance from "../api/axiosInstance"
+import { ProductInventoryCard } from "./ProductInventoryCard"
 
 interface Product {
-  _id: string;
-  name: string;
-  price: number;
-  quantity: number;
-  description: string;
-  category: string;
-  image: string;
-  user: string;
+  _id: string
+  name: string
+  price: number
+  quantity: number
+  description: string
+  category: string
+  image: string
+  user: string
 }
 
 export function ProductsInventoryGrid() {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [products, setProducts] = useState<Product[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
-  const [modalType, setModalType] = useState<"add" | "edit" | "delete" | null>(
-    null
-  );
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const [formData, setFormData] = useState<any>({});
-  const [imageFile, setImageFile] = useState<File | null>(null);
-  const [deleteConfirm, setDeleteConfirm] = useState("");
+  const [modalType, setModalType] = useState<"add" | "edit" | "delete" | null>(null)
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
+  const [formData, setFormData] = useState<any>({})
+  const [imageFile, setImageFile] = useState<File | null>(null)
+  const [deleteConfirm, setDeleteConfirm] = useState("")
 
   const fetchProducts = async () => {
     try {
-      setLoading(true);
-      const response = await axiosInstance.get("/products");
-      setProducts(response.data);
-      setError(null);
+      setLoading(true)
+      const response = await axiosInstance.get("/products")
+      setProducts(response.data)
+      setError(null)
     } catch (err) {
-      setError("Error al cargar los productos");
+      setError("Error al cargar los productos")
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   useEffect(() => {
-    fetchProducts();
-  }, []);
+    fetchProducts()
+  }, [])
 
-  const openModal = (
-    type: "add" | "edit" | "delete",
-    product: Product | null = null
-  ) => {
-    setModalType(type);
-    setSelectedProduct(product);
-    setFormData(type === "edit" && product ? product : {});
-  };
+  const openModal = (type: "add" | "edit" | "delete", product: Product | null = null) => {
+    setModalType(type)
+    setSelectedProduct(product)
+    setFormData(type === "edit" && product ? product : {})
+
+
+  }
 
   const closeModal = () => {
-    setModalType(null);
-    setSelectedProduct(null);
-    setFormData({});
-    setDeleteConfirm("");
-    setImageFile(null);
-  };
+    setModalType(null)
+    setSelectedProduct(null)
+    setFormData({})
+    setDeleteConfirm("")
+    setImageFile(null)
+  }
 
   const handleAddProduct = async () => {
-    const data = new FormData();
-    Object.keys(formData).forEach((k) => data.append(k, formData[k]));
-    if (imageFile) data.append("image", imageFile);
-    await axiosInstance.post("/products", data);
-    fetchProducts();
-    closeModal();
-  };
+    const data = new FormData()
+    Object.keys(formData).forEach((k) => data.append(k, formData[k]))
+    if (imageFile) data.append("image", imageFile)
+    await axiosInstance.post("/products", data)
+    fetchProducts()
+    closeModal()
+  }
 
   const handleUpdateWithoutImage = async () => {
-    await axiosInstance.put(
-      `/products/updatewithoutimage/${selectedProduct?._id}`,
-      formData
-    );
-    fetchProducts();
-    closeModal();
-  };
+    await axiosInstance.put(`products/updatewithoutimage/${selectedProduct?._id}`, formData)
+    fetchProducts()
+    closeModal()
+  }
 
   const handleUpdateWithImage = async () => {
-    const data = new FormData();
-    Object.keys(formData).forEach((k) => data.append(k, formData[k]));
-    if (imageFile) data.append("image", imageFile);
+    const data = new FormData()
+    Object.keys(formData).forEach((k) => data.append(k, formData[k]))
+    if (imageFile) data.append("image", imageFile)
 
-    await axiosInstance.put(
-      `/products/updatewithimage/${selectedProduct?._id}`,
-      data
-    );
-    fetchProducts();
-    closeModal();
-  };
+    await axiosInstance.put(`products/updatewithimage/${selectedProduct?._id}`, data)
+    fetchProducts()
+    closeModal()
+  }
 
   const handleDeleteProduct = async () => {
-    if (deleteConfirm !== "DELETE") return;
-    await axiosInstance.delete(`/products/${selectedProduct?._id}`);
-    fetchProducts();
-    closeModal();
-  };
+    if (deleteConfirm !== "DELETE") return
+    await axiosInstance.delete(`/products/${selectedProduct?._id}`)
+    fetchProducts()
+    closeModal()
+  }
 
-  if (loading) return <p className="text-black">Cargando...</p>;
-  if (error) return <p className="text-red-600">{error}</p>;
+  if (loading) return <p className="text-black">Cargando...</p>
+  if (error) return <p className="text-red-600">{error}</p>
 
   return (
     <>
@@ -140,9 +132,7 @@ export function ProductsInventoryGrid() {
               className="input text-black bg-gray-50 border border-gray-300"
               placeholder="Nombre"
               value={formData.name || ""}
-              onChange={(e) =>
-                setFormData({ ...formData, name: e.target.value })
-              }
+              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
             />
 
             <input
@@ -150,9 +140,7 @@ export function ProductsInventoryGrid() {
               type="number"
               placeholder="Precio"
               value={formData.price || ""}
-              onChange={(e) =>
-                setFormData({ ...formData, price: e.target.value })
-              }
+              onChange={(e) => setFormData({ ...formData, price: e.target.value })}
             />
 
             <input
@@ -160,27 +148,21 @@ export function ProductsInventoryGrid() {
               type="number"
               placeholder="Cantidad"
               value={formData.quantity || ""}
-              onChange={(e) =>
-                setFormData({ ...formData, quantity: e.target.value })
-              }
+              onChange={(e) => setFormData({ ...formData, quantity: e.target.value })}
             />
 
             <textarea
               className="input text-black bg-gray-50 border border-gray-300"
               placeholder="Descripción"
               value={formData.description || ""}
-              onChange={(e) =>
-                setFormData({ ...formData, description: e.target.value })
-              }
+              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
             />
 
             <input
               className="input text-black bg-gray-50 border border-gray-300"
               placeholder="Categoría"
               value={formData.category || ""}
-              onChange={(e) =>
-                setFormData({ ...formData, category: e.target.value })
-              }
+              onChange={(e) => setFormData({ ...formData, category: e.target.value })}
             />
 
             <input
@@ -190,10 +172,7 @@ export function ProductsInventoryGrid() {
             />
 
             <div className="flex justify-end gap-3 mt-5">
-              <button
-                onClick={closeModal}
-                className="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-lg text-black"
-              >
+              <button onClick={closeModal} className="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-lg text-black">
                 Cancelar
               </button>
 
@@ -230,9 +209,7 @@ export function ProductsInventoryGrid() {
       {modalType === "delete" && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex justify-center items-center px-4">
           <div className="bg-white shadow-xl rounded-xl p-6 w-full max-w-md text-black">
-            <h2 className="text-xl font-bold text-red-600">
-              Eliminar Producto
-            </h2>
+            <h2 className="text-xl font-bold text-red-600">Eliminar Producto</h2>
             <p className="mt-2 text-black">
               Escribe <strong>DELETE</strong> para confirmar.
             </p>
@@ -244,21 +221,15 @@ export function ProductsInventoryGrid() {
             />
 
             <div className="flex justify-end gap-3 mt-5">
-              <button
-                onClick={closeModal}
-                className="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-lg text-black"
-              >
+              <button onClick={closeModal} className="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-lg text-black">
                 Cancelar
               </button>
 
               <button
                 onClick={handleDeleteProduct}
                 disabled={deleteConfirm !== "DELETE"}
-                className={`px-4 py-2 rounded-lg text-white ${
-                  deleteConfirm === "DELETE"
-                    ? "bg-red-600 hover:bg-red-700"
-                    : "bg-red-300 cursor-not-allowed"
-                }`}
+                className={`px-4 py-2 rounded-lg text-white ${deleteConfirm === "DELETE" ? "bg-red-600 hover:bg-red-700" : "bg-red-300 cursor-not-allowed"
+                  }`}
               >
                 Eliminar
               </button>
@@ -267,5 +238,5 @@ export function ProductsInventoryGrid() {
         </div>
       )}
     </>
-  );
+  )
 }

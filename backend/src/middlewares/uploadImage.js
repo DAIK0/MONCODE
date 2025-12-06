@@ -26,7 +26,7 @@ export const uploadToCloudinary = async (req, res, next) => {
                 return res.status(400).json({ message: ['Error al cargar la imagen'] });
             }
 
-            // ⚠️ SI NO HAY ARCHIVO → CONTINÚA SIN ERROR
+
             if (!req.file) {
                 return next();
             }

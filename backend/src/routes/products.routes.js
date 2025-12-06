@@ -39,12 +39,8 @@ router.delete('/products/:id', authRequired, deleteProduct);
 router.put('/:id', authRequired, validateSchema(productUpdateSchema), updateProductWithoutImage);
 
 //Ruta para actualizar un producto y CAMBIAR la imagen
-router.put('products/updatewithimage/:id', authRequired, uploadToCloudinary,
-    validateSchema(productSchema), updateProductWithImage);
-
-router.put('products/updatewithoutimage/:id', authRequired, uploadToCloudinary,
-    validateSchema(productSchema), updateProductWithoutImage);
-
-
+router.put('/products/updatewithimage/:id', authRequired, uploadToCloudinary, validateSchema(productSchema), updateProductWithImage);
+//Ruta para actualizar un producto y SIN cambiar la imagen
+router.put('/products/updatewithoutimage/:id', authRequired, uploadToCloudinary, validateSchema(productSchema), updateProductWithoutImage);
 
 export default router;

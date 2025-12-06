@@ -32,19 +32,25 @@ export function ProductInventoryCard({ product, onEdit, onDelete }: ProductInven
             <p className="mt-2 font-semibold text-black">Precio: ${product.price}</p>
             <p className="font-semibold text-black">Existencias: {product.quantity}</p>
 
-            {/* 🔥 CATEGORÍA AGREGADA AQUÍ */}
+
+
+
             <p className="font-semibold text-black">
                 Categoría: {product.category}
             </p>
+
+
 
             <div className="flex justify-between mt-4">
                 <button onClick={onEdit} className="px-3 py-1 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
                     Editar
                 </button>
 
+
                 <button onClick={onDelete} className="px-3 py-1 bg-red-600 text-white rounded-lg hover:bg-red-700">
                     Eliminar
                 </button>
+
             </div>
         </div>
     )
