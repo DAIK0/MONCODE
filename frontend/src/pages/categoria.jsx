@@ -3,6 +3,7 @@ import Header from "../components/HeaderUser";
 import Sidebar from "../components/Sidebar";
 //import { getAllProducts } from "../api/products.js";
 import { useProducts } from "../context/producContext.jsx";
+import { useCarrito } from "../context/carritoContext.jsx";
 
 function CategoriaPage() {
   const categorias = [
@@ -21,7 +22,10 @@ function CategoriaPage() {
 
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState("");
   const { products, getProducts } = useProducts();
+  const { agregarAlCarrito } = useCarrito();
   const [productos, setProductos] = useState([]);
+
+
   console.log(products);
 
   useEffect(() => {
@@ -55,11 +59,10 @@ function CategoriaPage() {
               key={cat}
               onClick={() => setCategoriaSeleccionada(cat)}
               className={`px-4 py-2 rounded-lg border 
-                                ${
-                                  categoriaSeleccionada === cat
-                                    ? "bg-blue-600 text-white"
-                                    : "bg-white text-black"
-                                }
+                                ${categoriaSeleccionada === cat
+                  ? "bg-blue-600 text-white"
+                  : "bg-white text-black"
+                }
                             `}
             >
               {cat}
@@ -85,6 +88,13 @@ function CategoriaPage() {
               </h3>
               <p className="text-gray-600">{product.description}</p>
               <p className="font-semibold text-black mt-2">${product.price}</p>
+              //quiero un botton de agregar al carrito
+              <button
+                className="mt-4 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
+                onClick={() => agregarAlCarrito(product)}
+              >
+                Agregar al carrito
+              </button>
             </div>
           ))}
         </div>

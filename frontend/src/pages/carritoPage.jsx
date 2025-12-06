@@ -5,73 +5,28 @@ import Sidebar from "../components/SidebarUser.jsx";
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/Authcontext.jsx";
 import { useCarrito } from "../context/carritoContext.jsx";
-//import { obtenerProductoPorId } from "../api/productos.js"
-import { createOrder } from "../api/carrito.js";
+
 
 function CarritoPage() {
   const { user } = useAuth();
-  const { carrito, eliminarProducto, actualizarCantidad, limpiarCarrito } =
-    useCarrito();
+  const { mostrarProductosCarrito, calcularTotal, actualizarCantidad } = useCarrito();
   const [productosDetalles, setProductosDetalles] = useState([]);
   const [cargando, setCargando] = useState(false);
 
+  //funcion para mostrar los productos que se adregregaron al carrito
   useEffect(() => {
-    const cargarDetalles = async () => {
+    const fetchProductosDetalles = async () => {
       setCargando(true);
-      try {
-        const detalles = await Promise.all(
-          carrito.map(async (item) => {
-            const respuesta = await obtenerProductoPorId(item.id);
-            return { ...respuesta.data, cantidad: item.cantidad };
-          })
-        );
-        setProductosDetalles(detalles);
-      } catch (error) {
-        console.error("Error cargando detalles:", error);
-      } finally {
-        setCargando(false);
-      }
+      const productosDetalles = await mostrarProductosCarrito();
+      setProductosDetalles(productosDetalles);
+      setCargando(false);
     };
+    fetchProductosDetalles();
+  }, [mostrarProductosCarrito]);
 
-    if (carrito.length > 0) {
-      cargarDetalles();
-    } else {
-      setProductosDetalles([]);
-    }
-  }, [carrito]);
 
-  const calcularTotal = () => {
-    return productosDetalles.reduce(
-      (total, producto) => total + producto.precio * producto.cantidad,
-      0
-    );
-  };
 
-  const handleConfirmarOrden = async () => {
-    if (!user?._id || productosDetalles.length === 0) return;
-
-    const orden = {
-      userId: user._id,
-      items: productosDetalles.map((producto) => ({
-        productId: producto._id,
-        name: producto.nombre,
-        precio: producto.precio,
-        cantidad: producto.cantidad,
-      })),
-      estado: "pendiente",
-      total: calcularTotal(),
-    };
-
-    try {
-      await createOrder(orden);
-      limpiarCarrito();
-      alert("Orden creada exitosamente");
-    } catch (error) {
-      console.error("Error creando orden:", error);
-      alert("Error al crear la orden");
-    }
-  };
-
+  //
   return (
     <div className="min-h-screen bg-[#e5e5e5]">
       <Header />
@@ -119,21 +74,21 @@ function CarritoPage() {
                         className="border-b border-gray-200 hover:bg-gray-50"
                       >
                         <td className="px-6 py-4">
-                          <div className="bg-gray-200 rounded-lg px-4 py-2 inline-block">
-                            {producto.nombre}
+                          <div className="bg-gray-100 text-gray-900 rounded-lg px-4 py-2 inline-block">
+                            {producto.name}
                           </div>
                         </td>
                         <td className="px-6 py-4 text-gray-700">
-                          {producto.descripcion}
+                          {producto.description}
                         </td>
-                        <td className="px-6 py-4 font-semibold">
-                          ${producto.precio}
+                        <td className="bg-gray-100 text-gray-900 px-6 py-4 font-semibold">
+                          ${producto.price}
                         </td>
                         <td className="px-6 py-4">
                           <input
                             type="number"
                             min="1"
-                            value={producto.cantidad}
+                            value={producto.quantity}
                             onChange={(e) =>
                               actualizarCantidad(
                                 producto._id,
@@ -143,8 +98,8 @@ function CarritoPage() {
                             className="w-20 px-3 py-1 border border-gray-300 rounded-md text-center"
                           />
                         </td>
-                        <td className="px-6 py-4 font-semibold">
-                          ${producto.precio * producto.cantidad}
+                        <td className="bg-gray-100 text-gray-900 px-6 py-4 font-semibold">
+                          ${producto.price * producto.quantity}
                         </td>
                         <td className="px-6 py-4">
                           <button
@@ -165,7 +120,7 @@ function CarritoPage() {
                   Total: ${calcularTotal()}
                 </div>
                 <button
-                  onClick={handleConfirmarOrden}
+                  //onClick={handleConfirmarOrden}
                   className="bg-green-600 hover:bg-green-700 text-white font-semibold px-8 py-3 rounded-lg transition-colors"
                 >
                   Confirmar Orden

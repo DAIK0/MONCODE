@@ -14,6 +14,7 @@ export const useProducts = () => {
 export const ProductProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
 
+
   // funcion para obtener todos los productos
   const getProducts = async () => {
     try {
@@ -24,11 +25,14 @@ export const ProductProvider = ({ children }) => {
       console.log(error);
     }
   };
+
+
   return (
     <ProductContext.Provider
       value={{
         products,
         getProducts,
+
       }}
     >
       {children}
