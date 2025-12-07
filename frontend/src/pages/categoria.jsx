@@ -4,6 +4,7 @@ import Sidebar from "../components/Sidebar";
 //import { getAllProducts } from "../api/products.js";
 import { useProducts } from "../context/producContext.jsx";
 import { useCarrito } from "../context/carritoContext.jsx";
+import { useAuth } from "../context/Authcontext.jsx";
 
 function CategoriaPage() {
   const categorias = [
@@ -24,6 +25,7 @@ function CategoriaPage() {
   const { products, getProducts } = useProducts();
   const { agregarAlCarrito } = useCarrito();
   const [productos, setProductos] = useState([]);
+  const { user } = useAuth();
 
 
   console.log(products);
@@ -89,12 +91,14 @@ function CategoriaPage() {
               <p className="text-gray-600">{product.description}</p>
               <p className="font-semibold text-black mt-2">${product.price}</p>
               //quiero un botton de agregar al carrito
-              <button
-                className="mt-4 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
-                onClick={() => agregarAlCarrito(product)}
-              >
-                Agregar al carrito
-              </button>
+              {user && user.role !== "admin" && (
+                <button
+                  className="mt-4 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
+                  onClick={() => agregarAlCarrito(product)}
+                >
+                  Agregar al carrito
+                </button>
+              )}
             </div>
           ))}
         </div>

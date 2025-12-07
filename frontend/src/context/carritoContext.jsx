@@ -1,27 +1,31 @@
 import { createContext, useContext, useState } from "react";
+import { createOrder } from "../api/carrito.js";
 
 const CarritoContext = createContext();
 
 export const useCarrito = () => useContext(CarritoContext);
 
 export const CarritoProvider = ({ children }) => {
-    const [carrito, setCarrito] = useState([]);
+
     const [cart, setCart] = useState([]);
+    const [mensaje, setMensaje] = useState("");
 
 
 
-    //eliminar producto
+    //funcion para eliminar un producto del carrito
     const eliminarProducto = (id) => {
-        setCarrito((prevCarrito) => prevCarrito.filter((item) => item.id !== id));
-    };//fin eliminarProducto
+        setCart((prevCarrito) =>
+            prevCarrito.filter((item) => item.id !== id)
+        );
+    };
 
     //limpiar carrito
     const limpiarCarrito = () => {
-        setCarrito([]);
+        setCart([]);
     }
 
     const actualizarCantidad = (id, cantidad) => {
-        setCarrito((prevCarrito) =>
+        setCart((prevCarrito) =>
             prevCarrito.map((item) =>
                 item.id === id ? { ...item, cantidad } : item
             )
@@ -59,9 +63,52 @@ export const CarritoProvider = ({ children }) => {
         );
     };//fin calcularTotal
 
+    //funcion para confirmar la orden por el id
+    const confirmarOrden = async () => {
+        if (cart.length === 0)
+            return;
+
+        const orden = {
+            items: cart.map((item) => ({
+                productId: item._id,
+                price: item.price,
+                quantity: item.cantidad,
+            })),
+            total: calcularTotal(),
+        };
+        console.log("Orden confirmada:", orden);
+        const response = await createOrder(orden);
+
+        setMensaje("Orden confirmada exitosamente.");
+        setCart([]);
+
+    };
+
+
+    //funcion para cancelar la orden por parte del usuario
+    const cancelarOrden = () => {
+        if (cart.length === 0)
+            return;
+
+        const orden = {
+            products: cart.map((item) => ({
+                productId: item._id,
+                name: item.name,
+                price: item.price,
+                quantity: item.cantidad,
+            })),
+            total: calcularTotal(),
+        };
+        console.log("Orden cancelada:", orden);
+        setMensaje("Orden cancelada.");
+
+        setCart([]);
+    }//fin cancelarOrden
+
+
 
     return (
-        <CarritoContext.Provider value={{ carrito, setCarrito, eliminarProducto, limpiarCarrito, actualizarCantidad, agregarAlCarrito, cart, setCart, mostrarProductosCarrito, calcularTotal }}>
+        <CarritoContext.Provider value={{ eliminarProducto, limpiarCarrito, actualizarCantidad, agregarAlCarrito, cart, setCart, mostrarProductosCarrito, calcularTotal, confirmarOrden, cancelarOrden, mensaje, setMensaje }}>
             {children}
         </CarritoContext.Provider>
     );

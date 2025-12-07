@@ -9,9 +9,11 @@ import { useCarrito } from "../context/carritoContext.jsx";
 
 function CarritoPage() {
   const { user } = useAuth();
-  const { mostrarProductosCarrito, calcularTotal, actualizarCantidad } = useCarrito();
+  const { mostrarProductosCarrito, calcularTotal, actualizarCantidad, confirmarOrden, mensaje, setMensaje, cancelarOrden, eliminarProducto } = useCarrito();
   const [productosDetalles, setProductosDetalles] = useState([]);
   const [cargando, setCargando] = useState(false);
+
+
 
   //funcion para mostrar los productos que se adregregaron al carrito
   useEffect(() => {
@@ -24,6 +26,30 @@ function CarritoPage() {
     fetchProductosDetalles();
   }, [mostrarProductosCarrito]);
 
+  //funcion para confirmar la orden por parte del usuario
+  const handleConfirmarOrden = () => {
+    confirmarOrden();
+    //setMensajeConfirmado("Orden confirmada exitosamente.");
+    setProductosDetalles([]);
+  };//fin handleConfirmarOrden
+
+  useEffect(() => {
+    if (!mensaje) return;
+
+    const timer = setTimeout(() => {
+      setMensaje("");
+    }, 4000); // 4 segundos
+
+    return () => clearTimeout(timer);
+  }, [mensaje]);
+
+  //funcion para cancelar la orden por parte del usuario
+  const handleCancelarOrden = () => {
+    cancelarOrden();
+    setProductosDetalles([]);
+  };//finhandleCancelarOrden
+
+  //funcion para elminiar el producto del carrito 
 
 
   //
@@ -36,6 +62,11 @@ function CarritoPage() {
       <main className="ml-32 pt-24 px-8 pb-8">
         <div className="bg-[#d4d4d4] rounded-3xl p-8 min-h-[calc(100vh-8rem)]">
           <h2 className="text-3xl font-bold mb-6 text-gray-800">Tu carrito</h2>
+          {mensaje && (
+            <div className="mb-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg">
+              {mensaje}
+            </div>
+          )}
 
           {cargando ? (
             <p className="text-center py-8">Cargando productos...</p>
@@ -120,10 +151,17 @@ function CarritoPage() {
                   Total: ${calcularTotal()}
                 </div>
                 <button
-                  //onClick={handleConfirmarOrden}
+                  onClick={handleConfirmarOrden}
                   className="bg-green-600 hover:bg-green-700 text-white font-semibold px-8 py-3 rounded-lg transition-colors"
                 >
                   Confirmar Orden
+                </button>
+                <button
+
+                  onClick={handleCancelarOrden}
+                  className="bg-red-600 hover:bg-red-700 text-white font-semibold px-8 py-3 rounded-lg transition-colors"
+                >
+                  Cancelar Orden
                 </button>
               </div>
             </>
