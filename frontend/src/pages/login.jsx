@@ -40,22 +40,21 @@ function Login() {
         <div className="min-h-screen bg-[#4a4a4a] flex">
             {/* Lado izquierdo - Imagen de fondo y logo */}
             <div className="hidden lg:flex lg:w-1/2 relative">
-                <img src="/images/image.png" alt="Background" className="absolute inset-0 w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-black/40" />
-
+                <img src="./assets/" alt="Background" className="absolute inset-0 w-full h-full object-cover" />
+                <div className="absolute inset-0 bg-[#2b2b2b]" />
                 {/* Logo MOON CODE */}
                 <div className="absolute inset-0 flex items-center justify-center">
                     <div className="text-center">
                         <div className="mb-4 flex justify-center">
-                            <div className="w-48 h-48 bg-[#5a5a5a]/90 rounded-lg flex items-center justify-center backdrop-blur-sm">
-                                <div className="relative">
-                                    <div className="text-[120px] font-bold text-gray-300">C</div>
-                                    <div className="absolute top-8 left-8">
-                                        <div className="w-16 h-16 bg-gray-300 rounded-full flex items-center justify-center">
-                                            <div className="text-4xl">🌙</div>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div className="mb-4 flex justify-center">
+                                <video
+                                    src="/logo.mp4"
+                                    autoPlay
+                                    loop
+                                    muted
+                                    playsInline
+                                    className="w-48 h-48 object-cover rounded-lg"
+                                ></video>
                             </div>
                         </div>
                         <h1 className="text-4xl font-bold text-white tracking-wide">
@@ -68,7 +67,7 @@ function Login() {
             {/* Lado derecho - Formulario */}
             <div className="w-full lg:w-1/2 flex items-center justify-center p-8">
                 <div className="w-full max-w-md">
-                    <h2 className="text-4xl font-light text-white mb-12 text-center lg:text-right">Iniciar Sesión </h2>
+                    <h2 className="text-4xl font-light text-white mb-12 text-center lg:text-center">Iniciar Sesión </h2>
                     {loginErrors.length > 0 && (
                         loginErrors.map((error, i) => (
                             <div key={i} className="flex items-center gap-2 bg-red-600 text-white px-4 py-2 rounded-full shadow-md w-fit mx-auto">
@@ -100,9 +99,10 @@ function Login() {
                             }
 
                         </div>
-
                         {/* Campo Contraseña */}
+                        <label >Password</label>
                         <div className="relative">
+
                             <input
                                 {...register("password", { required: true })}
                                 type={showPassword ? "text" : "password"}

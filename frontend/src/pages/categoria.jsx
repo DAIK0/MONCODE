@@ -90,7 +90,7 @@ function CategoriaPage() {
               </h3>
               <p className="text-gray-600">{product.description}</p>
               <p className="font-semibold text-black mt-2">${product.price}</p>
-              //quiero un botton de agregar al carrito
+
               {user && user.role !== "admin" && (
                 <button
                   className="mt-4 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"

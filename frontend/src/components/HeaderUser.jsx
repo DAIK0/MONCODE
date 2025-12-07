@@ -9,7 +9,7 @@ function Header() {
             {/* Logo */}
             <div className="flex items-center gap-4">
                 <img
-                    src="/Logo.png"
+                    src="/logo.png"
                     alt="Logo"
                     className="w-10 h-10 md:w-12 md:h-12 rounded-lg object-contain transition-all duration-300 hover:scale-110"
                 />
