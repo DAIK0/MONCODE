@@ -1,4 +1,4 @@
-"use client";
+
 
 import Header from "../components/HeaderUser.jsx";
 import Sidebar from "../components/SidebarUser.jsx";
@@ -9,7 +9,7 @@ import { useCarrito } from "../context/carritoContext.jsx";
 
 function CarritoPage() {
   const { user } = useAuth();
-  const { mostrarProductosCarrito, calcularTotal, actualizarCantidad, confirmarOrden, mensaje, setMensaje, cancelarOrden, eliminarProducto } = useCarrito();
+  const { mostrarProductosCarrito, calcularTotal, actualizarCantidad, confirmarOrden, mensaje, setMensaje, cancelarOrden, eliminarProducto, ticket } = useCarrito();
   const [productosDetalles, setProductosDetalles] = useState([]);
   const [cargando, setCargando] = useState(false);
 
@@ -43,6 +43,13 @@ function CarritoPage() {
     return () => clearTimeout(timer);
   }, [mensaje]);
 
+  //funcion para mostrar el ticket 
+  useEffect(() => {
+    if (ticket) {
+      console.log("Ticket de compra:", ticket);
+    }
+  }, [ticket]);
+
   //funcion para cancelar la orden por parte del usuario
   const handleCancelarOrden = () => {
     cancelarOrden();
@@ -50,6 +57,10 @@ function CarritoPage() {
   };//finhandleCancelarOrden
 
   //funcion para elminiar el producto del carrito 
+  const handleEliminarProducto = (id) => {
+    console.log("Producto eliminado:", id);
+    eliminarProducto(id);
+  };
 
 
   //
@@ -118,15 +129,15 @@ function CarritoPage() {
                         <td className="px-6 py-4">
                           <input
                             type="number"
-                            min="1"
-                            value={producto.quantity}
+                            min="10"
+                            value={producto.cantidad}
                             onChange={(e) =>
                               actualizarCantidad(
                                 producto._id,
                                 Number(e.target.value)
                               )
                             }
-                            className="w-20 px-3 py-1 border border-gray-300 rounded-md text-center"
+                            className="w-20 px-3 py-1 border border-gray-950 rounded-md text-center"
                           />
                         </td>
                         <td className="bg-gray-100 text-gray-900 px-6 py-4 font-semibold">
@@ -134,7 +145,7 @@ function CarritoPage() {
                         </td>
                         <td className="px-6 py-4">
                           <button
-                            onClick={() => eliminarProducto(producto._id)}
+                            onClick={() => handleEliminarProducto(producto._id)}
                             className="text-red-500 hover:text-red-700 font-medium"
                           >
                             Eliminar Producto
@@ -164,6 +175,11 @@ function CarritoPage() {
                   Cancelar Orden
                 </button>
               </div>
+              {ticket && (
+                <ticket ticket={ticket} />
+              )
+
+              }
             </>
           )}
         </div>

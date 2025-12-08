@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from "react";
-import { createOrder } from "../api/carrito.js";
+import { createOrder, eliminarOrden, eliminarProductoDeOrden } from "../api/carrito.js";
 
 const CarritoContext = createContext();
 
@@ -9,14 +9,17 @@ export const CarritoProvider = ({ children }) => {
 
     const [cart, setCart] = useState([]);
     const [mensaje, setMensaje] = useState("");
+    const [tiketCompra, setTiketCompra] = useState(null);
+
 
 
 
     //funcion para eliminar un producto del carrito
-    const eliminarProducto = (id) => {
+    const eliminarProducto = (idItem) => {
         setCart((prevCarrito) =>
-            prevCarrito.filter((item) => item.id !== id)
+            prevCarrito.filter((product) => product._id !== idItem)
         );
+
     };
 
     //limpiar carrito
@@ -25,11 +28,19 @@ export const CarritoProvider = ({ children }) => {
     }
 
     const actualizarCantidad = (id, cantidad) => {
-        setCart((prevCarrito) =>
-            prevCarrito.map((item) =>
-                item.id === id ? { ...item, cantidad } : item
-            )
-        );
+        const productoExistente = cart.find((item) => item.id === id);
+
+        if (!productoExistente) {
+            return;
+        }
+
+        if (productoExistente.toSell >= productoExistente.quantity) {
+            toast.warn("ha alcanzado el maximo de de" + productoExistente.quantity + "productos en stock ");
+            return;
+        }
+        productoExistente.toSell = cantidad;
+        toast.success("se ha modificado la cantidad");
+
     };//fin actualizarCantidad
 
     const agregarAlCarrito = (product) => {
@@ -79,6 +90,9 @@ export const CarritoProvider = ({ children }) => {
         console.log("Orden confirmada:", orden);
         const response = await createOrder(orden);
 
+        setTiketCompra(orden);
+
+
         setMensaje("Orden confirmada exitosamente.");
         setCart([]);
 
@@ -86,7 +100,7 @@ export const CarritoProvider = ({ children }) => {
 
 
     //funcion para cancelar la orden por parte del usuario
-    const cancelarOrden = () => {
+    const cancelarOrden = async () => {
         if (cart.length === 0)
             return;
 
@@ -100,15 +114,19 @@ export const CarritoProvider = ({ children }) => {
             total: calcularTotal(),
         };
         console.log("Orden cancelada:", orden);
+        const response = await eliminarOrden(orden);
         setMensaje("Orden cancelada.");
 
         setCart([]);
     }//fin cancelarOrden
 
+    // funcion para generar un tiket de la compra 
+
+
 
 
     return (
-        <CarritoContext.Provider value={{ eliminarProducto, limpiarCarrito, actualizarCantidad, agregarAlCarrito, cart, setCart, mostrarProductosCarrito, calcularTotal, confirmarOrden, cancelarOrden, mensaje, setMensaje }}>
+        <CarritoContext.Provider value={{ eliminarProducto, limpiarCarrito, actualizarCantidad, agregarAlCarrito, cart, setCart, mostrarProductosCarrito, calcularTotal, confirmarOrden, cancelarOrden, mensaje, setMensaje, tiketCompra, setTiketCompra }}>
             {children}
         </CarritoContext.Provider>
     );
