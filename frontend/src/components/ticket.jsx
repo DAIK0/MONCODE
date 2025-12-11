@@ -1,35 +1,40 @@
-import ticket from '../components/ticket.jsx';
-import { useCarrito } from '../context/carritoContext.jsx';
+export default function Ticket({ ticket }) {
+  return (
+    <div className="mt-10 bg-white shadow-xl rounded-2xl p-6 w-full max-w-md mx-auto border border-gray-300">
+      <h2 className="text-xl font-bold text-center mb-4">🎟 Ticket de compra</h2>
 
+      <p>
+        <strong>ID Orden:</strong> {ticket._id}
+      </p>
+      <p>
+        <strong>Usuario:</strong> {ticket.userId}
+      </p>
+      <p>
+        <strong>Estado:</strong> {ticket.status}
+      </p>
 
-function Ticket() {
-    const { ticket } = useCarrito();
+      <h3 className="text-lg font-semibold mt-4 mb-2">Productos:</h3>
 
-    if (!ticket) {
-        return null; // Si no hay ticket, no renderizar nada
-    }
-    return (
-        <div className="mt-10 bg-white w-80 mx-auto p-6 border border-gray-300 rounded-xl shadow">
-            <h2 className="text-center font-bold text-xl mb-4">TICKET DE COMPRA</h2>
-
-            {ticket.items.map((item, index) => (
-                <div key={index} className="text-sm mb-3">
-                    <p><span className="font-semibold">ID Producto:</span> {item.productId}</p>
-                    <p><span className="font-semibold">Cantidad:</span> {item.quantity}</p>
-                    <p><span className="font-semibold">Precio:</span> ${item.price}</p>
-                    <hr className="my-2" />
-                </div>
-            ))}
-
-            <h3 className="text-lg font-bold text-center mt-4">
-                Total: ${ticket.total}
-            </h3>
-
-            <p className="text-center text-xs mt-4 text-gray-500">
-                Gracias por su compra
-            </p>
+      {ticket.items.map((item) => (
+        <div key={item._id} className="border p-3 rounded-lg mb-2 bg-gray-100">
+          <p>
+            <strong>Producto:</strong> {item.name ?? item.productId}
+          </p>
+          <p>
+            <strong>Cantidad:</strong> {item.quantity}
+          </p>
+          <p>
+            <strong>Precio:</strong> ${item.price}
+          </p>
+          <p>
+            <strong>Subtotal:</strong> ${item.price * item.quantity}
+          </p>
         </div>
-    );
-}
+      ))}
 
-export default Ticket
+      <h3 className="text-xl font-bold text-right mt-4">
+        Total: ${ticket.total}
+      </h3>
+    </div>
+  );
+}

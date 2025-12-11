@@ -1,20 +1,45 @@
-
-
 import Header from "../components/HeaderUser.jsx";
 import Sidebar from "../components/SidebarUser.jsx";
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/Authcontext.jsx";
 import { useCarrito } from "../context/carritoContext.jsx";
-
+import Ticket from "../components/ticket.jsx";
 
 function CarritoPage() {
   const { user } = useAuth();
-  const { mostrarProductosCarrito, calcularTotal, actualizarCantidad, confirmarOrden, mensaje, setMensaje, cancelarOrden, eliminarProducto, ticket } = useCarrito();
+  const {
+    mostrarProductosCarrito,
+    incProduct,
+    decProduct,
+    calcularTotal,
+    actualizarCantidad,
+    confirmarOrden,
+    mensaje,
+    setMensaje,
+    cancelarOrden,
+    eliminarProducto,
+    ticketCompra,
+  } = useCarrito();
   const [productosDetalles, setProductosDetalles] = useState([]);
   const [cargando, setCargando] = useState(false);
+  const [mostarTicket, setMostrarTicket] = useState(false);
 
-
-
+  //function para actualizar la cantidad de productos en el carrito
+  /* const incrementarCantidad = (product) => {
+    const productoExistente = cart.find(
+      (cartitem) => cartitem._id === product._id
+    );
+    if (productoExistente.toShell >= productoExistente.quantity) {
+      toast.warn(
+        "has alcanzado la cantidad maxima" +
+          productoExistente.quantity +
+          "para este producto"
+      );
+      return;
+    } else {
+      incProduct(product._id);
+      toast.success("cantidad actualizada");
+    }*/
   //funcion para mostrar los productos que se adregregaron al carrito
   useEffect(() => {
     const fetchProductosDetalles = async () => {
@@ -27,11 +52,16 @@ function CarritoPage() {
   }, [mostrarProductosCarrito]);
 
   //funcion para confirmar la orden por parte del usuario
-  const handleConfirmarOrden = () => {
-    confirmarOrden();
+  const handleConfirmarOrden = async () => {
+    const ticket = await confirmarOrden();
+
+    if (ticket) {
+      setMostrarTicket(true);
+    }
+
     //setMensajeConfirmado("Orden confirmada exitosamente.");
-    setProductosDetalles([]);
-  };//fin handleConfirmarOrden
+    //setProductosDetalles([]);
+  }; //fin handleConfirmarOrden
 
   useEffect(() => {
     if (!mensaje) return;
@@ -43,25 +73,24 @@ function CarritoPage() {
     return () => clearTimeout(timer);
   }, [mensaje]);
 
-  //funcion para mostrar el ticket 
+  //funcion para mostrar el ticket
   useEffect(() => {
-    if (ticket) {
-      console.log("Ticket de compra:", ticket);
+    if (ticketCompra) {
+      console.log("Ticket de compra:", ticketCompra);
     }
-  }, [ticket]);
+  }, [ticketCompra]);
 
   //funcion para cancelar la orden por parte del usuario
   const handleCancelarOrden = () => {
     cancelarOrden();
     setProductosDetalles([]);
-  };//finhandleCancelarOrden
+  }; //finhandleCancelarOrden
 
-  //funcion para elminiar el producto del carrito 
+  //funcion para elminiar el producto del carrito
   const handleEliminarProducto = (id) => {
     console.log("Producto eliminado:", id);
     eliminarProducto(id);
   };
-
 
   //
   return (
@@ -126,10 +155,10 @@ function CarritoPage() {
                         <td className="bg-gray-100 text-gray-900 px-6 py-4 font-semibold">
                           ${producto.price}
                         </td>
-                        <td className="px-6 py-4">
+                        <td className="px-6 py-4 text-gray-900">
                           <input
                             type="number"
-                            min="10"
+                            min="1"
                             value={producto.cantidad}
                             onChange={(e) =>
                               actualizarCantidad(
@@ -168,18 +197,17 @@ function CarritoPage() {
                   Confirmar Orden
                 </button>
                 <button
-
                   onClick={handleCancelarOrden}
                   className="bg-red-600 hover:bg-red-700 text-white font-semibold px-8 py-3 rounded-lg transition-colors"
                 >
                   Cancelar Orden
                 </button>
               </div>
-              {ticket && (
-                <ticket ticket={ticket} />
-              )
-
-              }
+              {mostarTicket && ticketCompra && (
+                <div className="mt-10">
+                  <Ticket ticket={ticketCompra} />
+                </div>
+              )}
             </>
           )}
         </div>

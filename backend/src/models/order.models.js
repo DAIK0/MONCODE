@@ -23,6 +23,7 @@ const orderSchema = mongoose.Schema({
                 required: true,
                 min: 0
             }
+
         }
     ],
     total: {
