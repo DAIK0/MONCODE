@@ -26,7 +26,33 @@ export const CarritoProvider = ({ children }) => {
     const limpiarCarrito = () => {
         setCart([]);
     }
+    {/*    
+    const incProduct = (idItem) => {
+        setCart((prevCarrito) =>
+            prevCarrito.map((cartItem) =>
+                cartItem._id === idItem ? { ...cartItem, cantidad: cartItem.cantidad + 1 } : cartItem
+            )
+        );
+    };//fin incProduct
+   
+    const decProduct = (idItem) => {
+        setCart((prevCarrito) =>
+            prevCarrito.map((cartItem) =>
+                cartItem._id === idItem && cartItem.cantidad > 1 ? { ...cartItem, cantidad: cartItem.cantidad - 1 } : cartItem
+            )
+        );
+    };//fin decProduct
 
+    const actualizarCantidad = (idItem, nuevaCantidad) => {
+        setCart((prevCarrito) =>
+            prevCarrito.map((product) =>
+                product._id === idItem
+                    ? { ...product, cantidad: nuevaCantidad }
+                    : product
+            )
+        );
+    };
+*/}
     const actualizarCantidad = (id, cantidad) => {
         const productoExistente = cart.find((item) => item.id === id);
 
@@ -90,7 +116,8 @@ export const CarritoProvider = ({ children }) => {
         console.log("Orden confirmada:", orden);
         const response = await createOrder(orden);
 
-        setTiketCompra(orden);
+
+        setTiketCompra(response.data);
 
 
         setMensaje("Orden confirmada exitosamente.");
@@ -124,7 +151,7 @@ export const CarritoProvider = ({ children }) => {
 
 
 
-
+    {/*decProduct, incProduct,*/ }
     return (
         <CarritoContext.Provider value={{ eliminarProducto, limpiarCarrito, actualizarCantidad, agregarAlCarrito, cart, setCart, mostrarProductosCarrito, calcularTotal, confirmarOrden, cancelarOrden, mensaje, setMensaje, tiketCompra, setTiketCompra }}>
             {children}
