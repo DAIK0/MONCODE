@@ -1,4 +1,4 @@
-"use client"
+
 
 interface Product {
     _id: string
