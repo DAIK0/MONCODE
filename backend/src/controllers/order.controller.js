@@ -21,10 +21,10 @@ export const createOrder = async (req, res) => {
             if (product.quantity < item.quantity) {
                 return res.status(400).json({ message: `Cantidad insuficiente de ${product.name}. Stock disponible: ${product.quantity}` });
             }
-            
+
             const subtotal = product.price * item.quantity;
             calculatedTotal += subtotal;
-            
+
             itemsWithPrices.push({
                 productId: item.productId,
                 quantity: item.quantity,
@@ -51,9 +51,9 @@ export const createOrder = async (req, res) => {
             );
         }
 
-        res.status(201).json({ 
+        res.status(201).json({
             message: 'Orden creada exitosamente',
-            order: newOrder 
+            order: newOrder
         });
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -129,9 +129,9 @@ export const updateOrderStatus = async (req, res) => {
             return res.status(404).json({ message: 'Orden no encontrada' });
         }
 
-        res.status(200).json({ 
+        res.status(200).json({
             message: 'Estado de orden Actualizado correctamente',
-            order 
+            order
         });
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -155,7 +155,7 @@ export const deleteProductFromOrder = async (req, res) => {
             return res.status(403).json({ message: 'No autorizado para modificar esta orden' });
         }
 
-        const itemIndex = order.items.findIndex(item => 
+        const itemIndex = order.items.findIndex(item =>
             item.productId.toString() === productId.toString()
         );
 

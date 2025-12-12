@@ -13,29 +13,32 @@ import CategoriaPage from "./pages/categoria.jsx";
 import Sidebar from "./components/Sidebar.jsx";
 import { ThemeProvider } from "./context/ThemeContext";
 import { ProductProvider } from "./context/producContext.jsx";
+import { OrdenProvider } from "./context/ordenContext.jsx";
 function App() {
   return (
     <ThemeProvider>
       <AuthProvider>
         <ProductProvider>
           <CarritoProvider>
-            <BrowserRouter>
-              <Sidebar />
-              <Routes>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/register" element={<RegisterPage />} />
-                <Route path="/login" element={<LoginPage />} />
-                <Route path="/home" element={<HomePage />} />
-                <Route path="/ayuda" element={<HelpPage />} />
-                <Route path="/categoria" element={<CategoriaPage />} />
+            <OrdenProvider>
+              <BrowserRouter>
+                <Sidebar />
+                <Routes>
+                  <Route path="/" element={<HomePage />} />
+                  <Route path="/register" element={<RegisterPage />} />
+                  <Route path="/login" element={<LoginPage />} />
+                  <Route path="/home" element={<HomePage />} />
+                  <Route path="/ayuda" element={<HelpPage />} />
+                  <Route path="/categoria" element={<CategoriaPage />} />
                 //rutas protegidas
-                <Route element={<Protected_Router />}>
-                  <Route path="/carrito" element={<CarritoPage />} />
-                  <Route path="/perfil" element={<PerfilPage />} />
-                  <Route path="/inventario" element={<InventarioPage />} />
-                </Route>
-              </Routes>
-            </BrowserRouter>
+                  <Route element={<Protected_Router />}>
+                    <Route path="/carrito" element={<CarritoPage />} />
+                    <Route path="/perfil" element={<PerfilPage />} />
+                    <Route path="/inventario" element={<InventarioPage />} />
+                  </Route>
+                </Routes>
+              </BrowserRouter>
+            </OrdenProvider>
           </CarritoProvider>
         </ProductProvider>
       </AuthProvider>

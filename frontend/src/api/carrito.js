@@ -6,6 +6,9 @@ export const createOrder = (order) => axiosInstance.post("/orders/crear-orden", 
 // Obtener ordenes del usuario desde el token
 export const obtenerOrdenes = () => axiosInstance.get("/orders");
 
+//obtener todas las ordenes
+export const obtenerTodasLasOrdenes = () => axiosInstance.get("/orders/admin/all");
+
 
 // Obtener orden específica
 export const obtenerOrdenPorId = (orderId) => axiosInstance.get(`/orders/${orderId}`);

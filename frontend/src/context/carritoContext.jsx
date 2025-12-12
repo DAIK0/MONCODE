@@ -5,6 +5,7 @@ import {
   eliminarProductoDeOrden,
 } from "../api/carrito.js";
 
+
 const CarritoContext = createContext();
 
 export const useCarrito = () => useContext(CarritoContext);
@@ -13,6 +14,9 @@ export const CarritoProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
   const [mensaje, setMensaje] = useState("");
   const [tiketCompra, setTiketCompra] = useState(null);
+
+
+
 
   //funcion para eliminar un producto del carrito
   const eliminarProducto = (idItem) => {
@@ -69,9 +73,12 @@ export const CarritoProvider = ({ children }) => {
             : item
         );
       }
+      setMensaje("Se agrego correctamente al carrito.");
       return [...prevCart, { ...product, cantidad: 1 }];
     });
   }; //fin agregarAlCarrito
+
+
 
   //funcion para mostrar los productos que se adregregaron al carrito
   const mostrarProductosCarrito = () => {
@@ -94,9 +101,9 @@ export const CarritoProvider = ({ children }) => {
     }
 
     const orden = {
+
       items: cart.map((item) => ({
         productId: item._id,
-        name: item.name,
         price: item.price,
         quantity: item.cantidad,
       })),
@@ -106,7 +113,7 @@ export const CarritoProvider = ({ children }) => {
       console.log("Orden confirmada:", orden);
       const response = await createOrder(orden);
 
-      setTiketCompra(response.data);
+      setTiketCompra(response.data.order);
       console.log("Ticket de compra:", response.data);
 
       setMensaje("Orden confirmada exitosamente.");
@@ -123,9 +130,8 @@ export const CarritoProvider = ({ children }) => {
     if (cart.length === 0) return;
 
     const orden = {
-      products: cart.map((item) => ({
+      items: cart.map((item) => ({
         productId: item._id,
-        name: item.name,
         price: item.price,
         quantity: item.cantidad,
       })),
@@ -143,6 +149,8 @@ export const CarritoProvider = ({ children }) => {
   {
     /*decProduct, incProduct,*/
   }
+
+
 
   return (
     <CarritoContext.Provider

@@ -18,7 +18,7 @@ function CarritoPage() {
     setMensaje,
     cancelarOrden,
     eliminarProducto,
-    ticketCompra,
+    tiketCompra,
   } = useCarrito();
   const [productosDetalles, setProductosDetalles] = useState([]);
   const [cargando, setCargando] = useState(false);
@@ -75,10 +75,10 @@ function CarritoPage() {
 
   //funcion para mostrar el ticket
   useEffect(() => {
-    if (ticketCompra) {
-      console.log("Ticket de compra:", ticketCompra);
+    if (tiketCompra) {
+      console.log("Ticket de compra:", tiketCompra);
     }
-  }, [ticketCompra]);
+  }, [tiketCompra]);
 
   //funcion para cancelar la orden por parte del usuario
   const handleCancelarOrden = () => {
@@ -170,7 +170,7 @@ function CarritoPage() {
                           />
                         </td>
                         <td className="bg-gray-100 text-gray-900 px-6 py-4 font-semibold">
-                          ${producto.price * producto.quantity}
+                          ${producto.price * producto.cantidad}
                         </td>
                         <td className="px-6 py-4">
                           <button
@@ -203,15 +203,22 @@ function CarritoPage() {
                   Cancelar Orden
                 </button>
               </div>
-              {mostarTicket && ticketCompra && (
-                <div className="mt-10">
-                  <Ticket ticket={ticketCompra} />
-                </div>
-              )}
+
+
             </>
           )}
         </div>
       </main>
+      {mostarTicket && tiketCompra && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+            <Ticket
+              ticket={tiketCompra}
+              onClose={() => setMostrarTicket(false)}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

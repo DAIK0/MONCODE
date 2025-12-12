@@ -23,7 +23,7 @@ function CategoriaPage() {
 
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState("");
   const { products, getProducts } = useProducts();
-  const { agregarAlCarrito } = useCarrito();
+  const { agregarAlCarrito, Mensaje } = useCarrito();
   const [productos, setProductos] = useState([]);
   const { user } = useAuth();
 
@@ -52,7 +52,15 @@ function CategoriaPage() {
       <Sidebar />
 
       <main className="ml-32 mt-20 p-8">
+        {Mensaje && (
+          <div className="fixed top-24 right-5 z-50 bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded shadow-lg animate-bounce">
+            <p className="font-bold">¡Éxito!</p>
+            <p>{Mensaje}</p>
+          </div>
+        )}
         <h1 className="text-3xl font-bold mb-6">Categorías</h1>
+
+
 
         {/* BOTONES DE CATEGORÍAS */}
         <div className="flex flex-wrap gap-3 mb-8">
@@ -99,6 +107,7 @@ function CategoriaPage() {
                   Agregar al carrito
                 </button>
               )}
+
             </div>
           ))}
         </div>
