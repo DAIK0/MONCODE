@@ -24,9 +24,8 @@ function Sidebar() {
       {/* INICIO */}
       <Link
         to="/"
-        className={`flex flex-col items-center gap-2 w-24 py-4 rounded-2xl transition-colors ${
-          isActive("/") ? "bg-[#5a5a5a]" : "hover:bg-[#5a5a5a]"
-        }`}
+        className={`flex flex-col items-center gap-2 w-24 py-4 rounded-2xl transition-colors ${isActive("/") ? "bg-[#5a5a5a]" : "hover:bg-[#5a5a5a]"
+          }`}
       >
         <FiHome size={32} className="text-white" />
         <span className="text-white text-xs font-light">INICIO</span>
@@ -35,9 +34,8 @@ function Sidebar() {
       {/* CATEGORIA */}
       <Link
         to="/categoria"
-        className={`flex flex-col items-center gap-2 w-24 py-4 rounded-2xl transition-colors ${
-          isActive("/categoria") ? "bg-[#5a5a5a]" : "hover:bg-[#5a5a5a]"
-        }`}
+        className={`flex flex-col items-center gap-2 w-24 py-4 rounded-2xl transition-colors ${isActive("/categoria") ? "bg-[#5a5a5a]" : "hover:bg-[#5a5a5a]"
+          }`}
       >
         <FiGrid size={32} className="text-white" />
         <span className="text-white text-xs font-light">CATEGORIA</span>
@@ -46,9 +44,8 @@ function Sidebar() {
       {/* TU CARRITO */}
       <Link
         to="/carrito"
-        className={`flex flex-col items-center gap-2 w-24 py-4 rounded-2xl transition-colors ${
-          isActive("/carrito") ? "bg-[#5a5a5a]" : "hover:bg-[#5a5a5a]"
-        }`}
+        className={`flex flex-col items-center gap-2 w-24 py-4 rounded-2xl transition-colors ${isActive("/carrito") ? "bg-[#5a5a5a]" : "hover:bg-[#5a5a5a]"
+          }`}
       >
         <FiShoppingCart size={32} className="text-white" />
         <span className="text-white text-xs font-light">TU CARRITO</span>
@@ -57,9 +54,8 @@ function Sidebar() {
       {/* AYUDA */}
       <Link
         to="/ayuda"
-        className={`flex flex-col items-center gap-2 w-24 py-4 rounded-2xl transition-colors ${
-          isActive("/ayuda") ? "bg-[#5a5a5a]" : "hover:bg-[#5a5a5a]"
-        }`}
+        className={`flex flex-col items-center gap-2 w-24 py-4 rounded-2xl transition-colors ${isActive("/ayuda") ? "bg-[#5a5a5a]" : "hover:bg-[#5a5a5a]"
+          }`}
       >
         <FiHelpCircle size={32} className="text-white" />
         <span className="text-white text-xs font-light">AYUDA</span>
@@ -67,10 +63,9 @@ function Sidebar() {
 
       {/* PERFIL */}
       <Link
-        to="/perfil"
-        className={`flex flex-col items-center gap-2 w-24 py-4 rounded-2xl transition-colors ${
-          isActive("/perfil") ? "bg-[#5a5a5a]" : "hover:bg-[#5a5a5a]"
-        }`}
+        to="/perfilUser"
+        className={`flex flex-col items-center gap-2 w-24 py-4 rounded-2xl transition-colors ${isActive("/perfilUser") ? "bg-[#5a5a5a]" : "hover:bg-[#5a5a5a]"
+          }`}
       >
         <FiUser size={32} className="text-white" />
         <span className="text-white text-xs font-light">{user.username}</span>

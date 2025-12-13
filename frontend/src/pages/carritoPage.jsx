@@ -202,6 +202,7 @@ function CarritoPage() {
                 >
                   Cancelar Orden
                 </button>
+
               </div>
 
 
@@ -209,6 +210,16 @@ function CarritoPage() {
           )}
         </div>
       </main>
+      {tiketCompra && (
+        <button
+          onClick={() => setMostrarTicket(true)}
+          className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8 py-3 rounded-lg transition-colors fixed bottom-4 right-4 z-50"
+        >
+          Ver Ticket
+        </button>
+
+      )}
+
       {mostarTicket && tiketCompra && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="max-w-4xl w-full max-h-[90vh] overflow-y-auto">
@@ -219,6 +230,7 @@ function CarritoPage() {
           </div>
         </div>
       )}
+
     </div>
   );
 }

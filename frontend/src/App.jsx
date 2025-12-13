@@ -34,6 +34,7 @@ function App() {
                   <Route element={<Protected_Router />}>
                     <Route path="/carrito" element={<CarritoPage />} />
                     <Route path="/perfil" element={<PerfilPage />} />
+                    <Route path="/perfilUser" element={<PerfilPage />} />
                     <Route path="/inventario" element={<InventarioPage />} />
                   </Route>
                 </Routes>

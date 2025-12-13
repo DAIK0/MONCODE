@@ -1,9 +1,9 @@
 import { Router } from 'express';
-import { 
-    createOrder, 
-    getUserOrders, 
-    getOrderById, 
-    getAllOrders, 
+import {
+    createOrder,
+    getUserOrders,
+    getOrderById,
+    getAllOrders,
     updateOrderStatus,
     deleteProductFromOrder,
     cancelOrder

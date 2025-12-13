@@ -15,17 +15,6 @@ export default function Ticket({ ticket, onClose }) {
     });
   };
 
-  const getStatusText = (status) => {
-    const texts = {
-      pending: "Pendiente",
-      confirmed: "Confirmada",
-      shipped: "Enviada",
-      delivered: "Entregada",
-      cancelled: "Cancelada",
-    };
-    return texts[status] || status;
-  };
-
   return (
     <div className="mt-10 bg-white shadow-2xl rounded-2xl p-6 w-full max-w-xl mx-auto border border-gray-200 relative">
 
@@ -53,34 +42,13 @@ export default function Ticket({ ticket, onClose }) {
           <span className="font-mono text-xs">{ticket._id}</span>
         </p>
 
-        {ticket.userId && (
-          <p className="mb-1 text-sm text-gray-600">
-            <strong className="text-gray-700">Usuario:</strong>{" "}
-            {ticket.userId}
+        {/* Fecha si existe */}
+        {ticket.createdAt && (
+          <p className="text-sm text-gray-600">
+            <strong className="text-gray-700">Fecha:</strong>{" "}
+            {formatDate(ticket.createdAt)}
           </p>
         )}
-
-        <p className="mb-1 text-sm text-gray-600">
-          <strong className="text-gray-700">Estado:</strong>
-          <span
-            className={`ml-2 px-3 py-1 rounded-full text-xs font-semibold 
-            ${ticket.status === "pending"
-                ? "bg-yellow-100 text-yellow-700"
-                : ticket.status === "confirmed"
-                  ? "bg-blue-100 text-blue-700"
-                  : ticket.status === "delivered"
-                    ? "bg-green-100 text-green-700"
-                    : "bg-gray-200 text-gray-700"
-              }`}
-          >
-            {getStatusText(ticket.status)}
-          </span>
-        </p>
-
-        <p className="text-sm text-gray-600">
-          <strong className="text-gray-700">Fecha:</strong>{" "}
-          {formatDate(ticket.createdAt)}
-        </p>
       </div>
 
       {/* Productos */}
@@ -89,7 +57,7 @@ export default function Ticket({ ticket, onClose }) {
       {ticket.items?.length > 0 ? (
         ticket.items.map((item, index) => (
           <div
-            key={item._id || index}
+            key={index}
             className="border border-gray-200 bg-white shadow-sm rounded-xl p-4 mb-4"
           >
             <div className="flex justify-between">
@@ -98,7 +66,7 @@ export default function Ticket({ ticket, onClose }) {
                   <span className="bg-green-200 text-green-800 px-2 py-1 rounded-full text-xs mr-2">
                     #{index + 1}
                   </span>
-                  {item.name || item.productId}
+                  Producto {item.productId}
                 </p>
 
                 <p className="text-sm text-gray-600 mt-1">

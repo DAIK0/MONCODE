@@ -1,8 +1,7 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 import {
   createOrder,
   eliminarOrden,
-  eliminarProductoDeOrden,
 } from "../api/carrito.js";
 
 
@@ -114,6 +113,7 @@ export const CarritoProvider = ({ children }) => {
       const response = await createOrder(orden);
 
       setTiketCompra(response.data.order);
+      localStorage.setItem("ticketCompra", JSON.stringify(response.data.order));
       console.log("Ticket de compra:", response.data);
 
       setMensaje("Orden confirmada exitosamente.");
@@ -149,6 +149,13 @@ export const CarritoProvider = ({ children }) => {
   {
     /*decProduct, incProduct,*/
   }
+
+  useEffect(() => {
+    const ticketGuardado = localStorage.getItem("ticketCompra");
+    if (ticketGuardado) {
+      setTiketCompra(JSON.parse(ticketGuardado));
+    }
+  }, []);
 
 
 
