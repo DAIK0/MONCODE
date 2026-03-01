@@ -1,13 +1,12 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { /*createContext, useContext,*/ useState, useEffect } from "react";
 import {
   createOrder,
   eliminarOrden,
 } from "../api/carrito.js";
+import { CarritoContext } from "./carritoContext";
 
 
-const CarritoContext = createContext();
 
-export const useCarrito = () => useContext(CarritoContext);
 
 export const CarritoProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
@@ -138,7 +137,7 @@ export const CarritoProvider = ({ children }) => {
       total: calcularTotal(),
     };
     console.log("Orden cancelada:", orden);
-    const response = await eliminarOrden(orden);
+    const _response = await eliminarOrden(orden);
     setMensaje("Orden cancelada.");
 
     setCart([]);
