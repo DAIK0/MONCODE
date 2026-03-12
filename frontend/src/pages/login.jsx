@@ -5,6 +5,7 @@ import { useNavigate, Link } from 'react-router';
 import { zodResolver } from '@hookform/resolvers/zod'
 import { loginSchema } from '../Schema/LoginSchema';
 import { IoPersonAdd, IoLogIn, IoEyeSharp, IoEyeOffSharp } from 'react-icons/io5';
+import { useLocation } from "react-router";
 
 
 function Login() {
@@ -17,6 +18,8 @@ function Login() {
     const { singIn, isAuthenticated, errors: loginErrors } = useAuth();
     const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
+    const location = useLocation();
+    const mensaje = location.state?.message || "";
 
     const togglePasswordVisibility = () => {
         setShowPassword(showPassword ? false : true);
@@ -66,6 +69,11 @@ function Login() {
 
             {/* Lado derecho - Formulario */}
             <div className="w-full lg:w-1/2 flex items-center justify-center p-8">
+                {mensaje && (
+                    <div className="flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded-full shadow-md w-fit mx-auto mb-6">
+                        {mensaje}
+                    </div>
+                )}
                 <div className="w-full max-w-md">
                     <h2 className="text-4xl font-light text-white mb-12 text-center lg:text-center">Iniciar Sesión </h2>
                     {loginErrors.length > 0 && (
@@ -75,7 +83,6 @@ function Login() {
                                 <span className="font-semibold text-sm">{error} </span>
                             </div>
                         ))
-
                     )}
                     <form onSubmit={handleSubmit(onSubmit)}
                         className="space-y-6">
@@ -148,7 +155,7 @@ function Login() {
                 </div>
             </div>
         </div>
-    )
+    );
 }
 
-export default Login
+export default Login;

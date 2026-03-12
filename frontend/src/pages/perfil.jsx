@@ -1,156 +1,173 @@
-import Header from "../components/HeaderUser";
-import Sidebar from "../components/Sidebar";
-import { useOrdenes } from "../context/ordenContext";
-import { useEffect, useState } from "react";
+import { useUser } from "../context/useUser";
+import { useAuth } from "../context/Authcontext";
+import { useState } from "react";
+import { User, Mail, Lock } from "lucide-react";
+import { useNavigate } from "react-router";
 
-function perfil() {
-  const { ordenesAdmin, loading, cargarOrdenes } = useOrdenes();
+const Perfil = () => {
+  const { user, updateUser } = useUser();
+  const { logOut } = useAuth();
+  const [message, setMessage] = useState("");
+  const navigate = useNavigate();
 
-  //  Estado local para quitar órdenes del front
-  const [ordenesVisibles, setOrdenesVisibles] = useState([]);
+  const [formData, setFormData] = useState({
+    username: user?.username || "",
+    email: user?.email || "",
+    password: ""
+  });
 
-  //  Mensaje temporal al verificar
-  const [mensaje, setMensaje] = useState("");
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
 
-  useEffect(() => {
-    cargarOrdenes();
-  }, []);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  // Cuando cargan las órdenes, las guardamos en el front
-  useEffect(() => {
-    setOrdenesVisibles(ordenesAdmin);
-  }, [ordenesAdmin]);
+    try {
+      await updateUser(formData);
 
-  // 🔥 Función para verificar orden (solo front)
-  const verificarOrden = (id) => {
-    setOrdenesVisibles((prev) => prev.filter((o) => o._id !== id));
+      if (!formData.username || !formData.email || !formData.password) {
+        setMessage("Por favor, completa todos los campos");
+        return;
+      }
 
-    setMensaje("✅ Orden verificada");
+      setMessage("Perfil actualizado con éxito, se cerrará sesión para aplicar cambios.");
 
-    setTimeout(() => setMensaje(""), 2000);
+
+      setTimeout(() => {
+        logOut();
+        navigate("/login", {
+          replace: true,
+          state: { message: "Perfil actualizado, por favor inicia sesión nuevamente." }
+        });
+      }, 2000);
+
+
+    } catch (error) {
+      const errorMsg = error.response?.data?.message;
+
+      if (errorMsg) {
+        setMessage(errorMsg);
+        return;
+      }
+
+      setMessage("Error al actualizar perfil");
+    }
   };
 
   return (
-    <div className="min-h-screen bg-[#e5e5e5]">
-      <Header />
-      <Sidebar />
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-4">
 
-      {/* 🔥 Mensaje flotante */}
-      {mensaje && (
-        <div className="fixed top-5 right-5 bg-green-600 text-white px-4 py-2 rounded-lg shadow-lg z-50">
-          {mensaje}
-        </div>
-      )}
+      <div className="w-full max-w-md">
 
-      <main className="ml-32 mt-20 p-8">
-        <h1 className="text-3xl font-bold mb-6">📦 Órdenes realizadas</h1>
+        {/* TARJETA */}
+        <div className="bg-white/10 backdrop-blur-xl border border-white/10 shadow-2xl rounded-3xl overflow-hidden">
 
-        {!loading && ordenesVisibles.length > 0 && (
-          <div className="space-y-4">
-            {ordenesVisibles.map((orden) => (
-              <div
-                key={orden._id}
-                className="bg-zinc-900 shadow-lg rounded-xl p-6 relative"
-              >
-                {/* 🔥 Botón de palomita */}
-                <button
-                  onClick={() => verificarOrden(orden._id)}
-                  className="absolute top-4 right-4 bg-green-500 hover:bg-green-600 text-white font-bold p-2 rounded-full"
-                  title="Marcar como verificada"
-                >
-                  ✓
-                </button>
+          {/* HEADER */}
+          <div className="flex flex-col items-center pt-10 pb-6">
 
-                {/* Encabezado de la orden */}
-                <div className="flex justify-between items-start border-b pb-4 mb-4">
-                  <div>
-                    <p className="text-sm text-gray-500">ID de Orden</p>
-                    <p className="font-mono text-sm">{orden._id}</p>
-                  </div>
+            {/* AVATAR */}
+            <div className="w-20 h-20 rounded-2xl bg-white/10 flex items-center justify-center shadow-lg mb-3">
+              <User className="w-10 h-10 text-white" />
+            </div>
 
-                  <div>
-                    <p className="text-sm text-gray-500">Usuario</p>
-                    <p className="font-medium">{orden.userId?.email || "—"}</p>
-                  </div>
+            <h2 className="text-xl font-bold text-white">
+              {user?.username}
+            </h2>
 
-                  <div>
-                    <p className="text-sm text-gray-900">Estado</p>
-                    <span
-                      className={`px-3 py-1 rounded-full text-sm font-medium ${
-                        orden.status === "pending"
-                          ? "bg-yellow-100 text-yellow-800"
-                          : orden.status === "completed"
-                          ? "bg-green-100 text-green-800"
-                          : "bg-gray-100 text-gray-800"
-                      }`}
-                    >
-                      {orden.status}
-                    </span>
-                  </div>
+            <p className="text-slate-400 text-sm">
+              Edita tu información
+            </p>
 
-                  <div>
-                    <p className="text-sm text-gray-900">Fecha</p>
-                    <p className="font-medium">
-                      {new Date(orden.createdAt).toLocaleString("es-MX")}
-                    </p>
-                  </div>
-                </div>
+          </div>
 
-                {/* Items de la orden */}
-                <div className="space-y-2">
-                  <h3 className="font-semibold text-gray-900 mb-3">
-                    Productos:
-                  </h3>
+          <div className="px-8 pb-8">
 
-                  {orden.items &&
-                    orden.items.map((item, index) => (
-                      <div
-                        key={item._id || index}
-                        className="flex justify-between items-center bg-gray-50 p-3 rounded-lg"
-                      >
-                        {/* ID del producto */}
-                        <div className="flex-1">
-                          <p className="text-sm text-gray-900">ID Producto</p>
-                          <p className="font-mono text-sm text-gray-900">
-                            {item.productId?._id}
-                          </p>
-                        </div>
+            {message && (
+              <div className="bg-yellow-50 border border-yellow-300 text-yellow-800 p-4 rounded-xl text-sm mb-6 text-center">
+                {message}
+              </div>
+            )}
 
-                        {/* Nombre */}
-                        <div className="flex-1 text-center">
-                          <p className="text-sm text-gray-900">Nombre</p>
-                          <p className="font-semibold text-gray-900">
-                            {item.productId?.name}
-                          </p>
-                        </div>
+            <form onSubmit={handleSubmit} className="space-y-5">
 
-                        {/* Precio */}
-                        <div className="flex-1 text-right">
-                          <p className="text-sm text-gray-900">Precio</p>
-                          <p className="font-semibold text-green-600">
-                            ${item.productId?.price?.toFixed(2)}
-                          </p>
-                        </div>
-                      </div>
-                    ))}
-                </div>
+              {/* USERNAME */}
+              <div>
+                <label className="text-sm text-slate-300 font-medium">
+                  Usuario
+                </label>
 
-                {/* Total */}
-                <div className="border-t pt-4 mt-4">
-                  <div className="flex justify-end items-center">
-                    <span className="text-lg font-semibold mr-3">Total:</span>
-                    <span className="text-2xl font-bold text-green-600">
-                      ${orden.total.toFixed(2)}
-                    </span>
-                  </div>
+                <div className="relative mt-1">
+                  <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+
+                  <input
+                    type="text"
+                    name="username"
+                    value={formData.username}
+                    onChange={handleChange}
+                    placeholder="Tu usuario"
+                    className="w-full bg-white/10 border border-white/10 text-white placeholder:text-slate-400 rounded-xl pl-10 pr-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                  />
                 </div>
               </div>
-            ))}
+
+              {/* EMAIL */}
+              <div>
+                <label className="text-sm text-slate-300 font-medium">
+                  Email
+                </label>
+
+                <div className="relative mt-1">
+                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    placeholder="correo@email.com"
+                    className="w-full bg-white/10 border border-white/10 text-white placeholder:text-slate-400 rounded-xl pl-10 pr-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                  />
+                </div>
+              </div>
+
+              {/* PASSWORD */}
+              <div>
+                <label className="text-sm text-slate-300 font-medium">
+                  Nueva contraseña
+                </label>
+
+                <div className="relative mt-1">
+                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+
+                  <input
+                    type="password"
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    placeholder="********"
+                    className="w-full bg-white/10 border border-white/10 text-white placeholder:text-slate-400 rounded-xl pl-10 pr-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                  />
+                </div>
+              </div>
+
+              {/* BOTON */}
+              <button
+                type="submit"
+                className="w-full mt-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl transition duration-200 shadow-lg hover:shadow-xl"
+              >
+                Actualizar perfil
+              </button>
+
+            </form>
           </div>
-        )}
-      </main>
+        </div>
+      </div>
     </div>
   );
-}
+};
 
-export default perfil;
+export default Perfil;

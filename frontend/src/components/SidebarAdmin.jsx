@@ -6,6 +6,7 @@ import {
   FiUser,
   FiBox,
   FiLogOut,
+  FiList
 } from "react-icons/fi";
 import { useAuth } from "../context/Authcontext.jsx";
 import { useNavigate } from "react-router";
@@ -51,6 +52,17 @@ function SidebarAdmin() {
       >
         <FiBox size={32} className="text-white" />
         <span className="text-white text-xs font-light">INVENTARIO</span>
+      </Link>
+
+      {/* PEDIDOS (ADMIN) */}
+      <Link
+        to="/admin/pedidos"
+        className={`flex flex-col items-center gap-2 w-24 py-4 rounded-2xl transition-colors ${
+          isActive("/admin/pedidos") ? "bg-[#5a5a5a]" : "hover:bg-[#5a5a5a]"
+        }`}
+      >
+        <FiList size={32} className="text-white" />
+        <span className="text-white text-xs font-light">PEDIDOS</span>
       </Link>
 
       {/* AYUDA */}

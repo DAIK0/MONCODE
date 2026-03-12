@@ -1,11 +1,13 @@
-import { createContext, useContext, useState, useEffect, use } from "react";
+import { createContext, useContext, useState, useEffect, } from "react";
 import { register, login, logout, verifyToken } from "../api/auth";
 import Cookies from 'js-cookie';
 
 
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const AuthContext = createContext();
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useAuth = () => {
     const context = useContext(AuthContext);
     if (!context)
@@ -57,7 +59,7 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         async function chekLogin() {
-            if (!cookies.token) {
+            if (!Cookies.get('token')) {
                 setIsAuthenticated(false);
                 setIsLoading(false);
 
@@ -65,7 +67,7 @@ export const AuthProvider = ({ children }) => {
                 setIsAdmin(false);
             }//fin del if
             try {
-                const res = await verifyToken(cookies.token);
+                const res = await verifyToken(Cookies.get('token'));
 
                 if (!res.data)
                     setIsAuthenticated(false);
@@ -77,12 +79,14 @@ export const AuthProvider = ({ children }) => {
                 if (res.data.role === ROLE_ADMIN)
                     setIsAdmin(true);
 
+                // eslint-disable-next-line no-unused-vars
             } catch (error) {
+                console.log(error);
 
             }
 
         }
-
+        chekLogin();
     })
 
     const logOut = () => {
@@ -90,7 +94,7 @@ export const AuthProvider = ({ children }) => {
         Cookies.remove('token');
         setUser(null);
         setIsAuthenticated(false);
-        setIsLoading(true);
+        setIsLoading(false);
         setIsAdmin(false);
     }
 

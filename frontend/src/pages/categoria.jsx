@@ -3,8 +3,9 @@ import Header from "../components/HeaderUser";
 import Sidebar from "../components/Sidebar";
 //import { getAllProducts } from "../api/products.js";
 import { useProducts } from "../context/producContext.jsx";
-import { useCarrito } from "../context/carritoContext.jsx";
+import { useCarrito } from "../context/useCarrito.js";
 import { useAuth } from "../context/Authcontext.jsx";
+import { useParams } from "react-router";
 
 function CategoriaPage() {
   const categorias = [
@@ -25,7 +26,10 @@ function CategoriaPage() {
   const { products, getProducts } = useProducts();
   const { agregarAlCarrito, Mensaje } = useCarrito();
   const [productos, setProductos] = useState([]);
+  const { category } = useParams();
   const { user } = useAuth();
+
+  const [search] = useState("");
 
 
   console.log(products);
@@ -36,15 +40,34 @@ function CategoriaPage() {
 
   // dame el query para las categorias
   useEffect(() => {
+
+    let productosFiltrados = products;
+
+    // Filtrar por categoría
     if (categoriaSeleccionada) {
-      const filteredProducts = products.filter(
-        (product) => product.category === categoriaSeleccionada
+      productosFiltrados = productosFiltrados.filter(
+        (product) =>
+          product.category.toLowerCase() === categoriaSeleccionada.toLowerCase()
       );
-      setProductos(filteredProducts);
-    } else {
-      setProductos(products);
     }
-  }, [categoriaSeleccionada, products]);
+
+    // Filtrar por búsqueda
+    if (search) {
+      productosFiltrados = productosFiltrados.filter((product) =>
+        product.name.toLowerCase().includes(search.toLowerCase().trim())
+      );
+    }
+
+    // Guardar los productos filtrados
+    setProductos(productosFiltrados);
+
+  }, [categoriaSeleccionada, products, search]);
+
+  useEffect(() => {
+    if (category) {
+      setCategoriaSeleccionada(category);
+    }
+  }, [category]);
 
   return (
     <div className="min-h-screen bg-[#e5e5e5]">

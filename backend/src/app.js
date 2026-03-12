@@ -9,6 +9,8 @@ import authRoutes from './routes/user.routes.js';
 import productRoutes from './routes/products.routes.js'
 import orderRoutes from './routes/order.routes.js';
 import jwt from 'jsonwebtoken';
+
+import userRoutes from './routes/user.routes.js';
 const { verify } = jwt;
 
 
@@ -28,5 +30,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use('/api/', authRoutes)
 app.use('/api/', productRoutes);
 app.use('/api/', orderRoutes);
+app.use('/api/', userRoutes);
 
 export default app;

@@ -7,6 +7,7 @@ import {
   FiUser,
   FiBox,
   FiLogOut,
+  FiTruck
 } from "react-icons/fi";
 import { useAuth } from "../context/Authcontext.jsx";
 import { useNavigate } from "react-router";
@@ -14,6 +15,7 @@ import { useNavigate } from "react-router";
 function Sidebar() {
   const { user, logOut } = useAuth();
   const location = useLocation();
+  // eslint-disable-next-line no-unused-vars
   const path = location.pathname;
   const navigate = useNavigate();
 
@@ -49,6 +51,16 @@ function Sidebar() {
       >
         <FiShoppingCart size={32} className="text-white" />
         <span className="text-white text-xs font-light">TU CARRITO</span>
+      </Link>
+
+      {/* MIS PEDIDOS */}
+      <Link
+        to="/mis-pedidos"
+        className={`flex flex-col items-center gap-2 w-24 py-4 rounded-2xl transition-colors ${isActive("/mis-pedidos") ? "bg-[#5a5a5a]" : "hover:bg-[#5a5a5a]"
+          }`}
+      >
+        <FiTruck size={32} className="text-white" />
+        <span className="text-white text-xs font-light text-center leading-tight">MIS PEDIDOS</span>
       </Link>
 
       {/* AYUDA */}

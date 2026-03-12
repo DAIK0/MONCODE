@@ -1,17 +1,19 @@
-import { /*createContext, useContext,*/ useState, useEffect } from "react";
+import { createContext, useState, useEffect } from "react";
 import {
   createOrder,
   eliminarOrden,
 } from "../api/carrito.js";
-import { CarritoContext } from "./carritoContext";
 
-
+// eslint-disable-next-line react-refresh/only-export-components
+export const CarritoContext = createContext();
 
 
 export const CarritoProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
   const [mensaje, setMensaje] = useState("");
   const [tiketCompra, setTiketCompra] = useState(null);
+
+
 
 
 

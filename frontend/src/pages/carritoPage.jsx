@@ -2,15 +2,15 @@ import Header from "../components/HeaderUser.jsx";
 import Sidebar from "../components/SidebarUser.jsx";
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/Authcontext.jsx";
-import { useCarrito } from "../context/carritoContext.jsx";
+import { useCarrito } from "../context/useCarrito.js";
 import Ticket from "../components/ticket.jsx";
 
 function CarritoPage() {
+  // eslint-disable-next-line no-unused-vars
   const { user } = useAuth();
   const {
     mostrarProductosCarrito,
-    incProduct,
-    decProduct,
+    // decProduct,
     calcularTotal,
     actualizarCantidad,
     confirmarOrden,

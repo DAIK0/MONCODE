@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import { obtenerOrdenPorId, obtenerTodasLasOrdenes, obtenerOrdenesUser } from "../api/carrito.js";
+import { obtenerOrdenPorId, obtenerTodasLasOrdenes, obtenerOrdenesUser, actualizarEstadoOrden } from "../api/carrito.js";
 import { useAuth } from "../context/Authcontext.jsx";
 
 const OrdenContext = createContext();
@@ -36,6 +36,18 @@ export const OrdenProvider = ({ children }) => {
         }
     };
 
+    // Cambiar el estado de una orden (admin)
+    const cambiarEstadoOrden = async (orderId, newStatus) => {
+        try {
+            await actualizarEstadoOrden(orderId, newStatus);
+            // Refresh orders after change
+            await cargarOrdenes();
+        } catch (error) {
+            console.log("Error al cambiar estado de la orden", error);
+            throw error;
+        }
+    };
+
     // USEEFFECT PARA DECIDIR QUÉ CARGAR SEGÚN EL ROL
     useEffect(() => {
         console.log("USER EN ORDEN PROVIDER:", user);
@@ -60,7 +72,8 @@ export const OrdenProvider = ({ children }) => {
                 ordenesUser,
                 loading,
                 cargarOrdenes,
-                cargarOrdenesUser
+                cargarOrdenesUser,
+                cambiarEstadoOrden
             }}
         >
             {children}

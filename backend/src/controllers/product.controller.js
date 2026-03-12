@@ -199,6 +199,21 @@ export const updateProductWithImage = async (req, res) => {
     }
 };//fin de updateProduct
 
+//funcion para la busqueda productos 
+export const searchProducts = async (req, res) => {
+    try {
+        const { search } = req.query;
+        const regex = new RegExp(search, 'i');
+        const products = await Product.find({ name: regex });
+        res.json(products);
+    } catch (error) {
+        console.log(error);
+        res.status(511)
+            .json({ message: ['error al obtener un producto por id'] })
+    }
+};//fin de searchProducts
+
+
 //funcion para obtener todos los productos de todos los usuarios
 //para la compra de productos
 
