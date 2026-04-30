@@ -8,9 +8,9 @@ function Header() {
     return (
         <header className="
             fixed top-0 left-0 right-0 h-20 
-            bg-gray-200 dark:bg-[#2b2b2b]
+            bg-white dark:bg-black
             flex items-center justify-between px-4 md:px-8 z-50
-            transition-colors
+            transition-colors duration-300 border-b border-gray-100 dark:border-white/5
         ">
             {/* Logo */}
             <div className="flex items-center gap-4">
@@ -33,12 +33,12 @@ function Header() {
                         placeholder="Busca aquí"
                         className="
                             w-full px-6 py-3 
-                            bg-gray-300 dark:bg-[#4d4d4d] 
+                            bg-gray-100 dark:bg-[#050505] 
                             text-black dark:text-white 
                             placeholder-gray-500 dark:placeholder-gray-300
                             rounded-full focus:outline-none focus:ring-2 
                             focus:ring-gray-400 dark:focus:ring-gray-600
-                            transition-colors
+                            transition-colors duration-300 border border-gray-100 dark:border-white/10
                         "
                     />
                     <FiSearch className="absolute right-6 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-300" size={20} />
@@ -54,7 +54,7 @@ function Header() {
                     {darkMode ? <FiSun size={24} /> : <FiMoon size={24} />}
                 </button>
 
-                <div className="w-10 h-10 md:w-12 md:h-12 bg-gray-300 dark:bg-[#4d4d4d] rounded-full"></div>
+                <div className="w-10 h-10 md:w-12 md:h-12 bg-gray-300 dark:bg-[#222222] rounded-full"></div>
             </div>
         </header>
     );

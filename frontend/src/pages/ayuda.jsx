@@ -1,4 +1,3 @@
-import Header from "../components/HeaderUser";
 import Sidebar from "../components/Sidebar";
 import { useState } from "react";
 import { AiOutlineDown, AiOutlineUp } from "react-icons/ai";
@@ -173,8 +172,7 @@ export default function Ayuda() {
     const toggleItem = (index) => setOpenIndex(openIndex === index ? null : index);
 
     return (
-        <div className="min-h-screen bg-[#e5e5e5] dark:bg-[#1e1e1e] transition-colors">
-            <Header />
+        <div className="min-h-screen bg-white dark:bg-black transition-colors">
             <Sidebar />
 
             <main className="ml-32 mt-20 p-8">
@@ -189,10 +187,10 @@ export default function Ayuda() {
                                 onClick={() => toggleItem(index)}
                                 className="
                                 w-full flex justify-between items-center 
-                                bg-white dark:bg-[#2a2a2a]
+                                bg-gray-50 dark:bg-[#050505]
                                 p-4 rounded-lg shadow-sm cursor-pointer 
-                                hover:bg-gray-100 dark:hover:bg-[#3a3a3a]
-                                transition
+                                hover:bg-gray-100 dark:hover:bg-[#252525]
+                                transition border border-gray-100 dark:border-white/5
                                 "
                             >
                                 <span
@@ -215,9 +213,10 @@ export default function Ayuda() {
                             >
                                 <div
                                     className="
-                                    bg-white dark:bg-[#2a2a2a]
+                                    bg-white dark:bg-[#050505]
                                     p-4 rounded-lg shadow-sm 
                                     text-gray-700 dark:text-gray-300
+                                    border border-gray-100 dark:border-white/5
                                     "
                                 >
                                     {item.content}
@@ -229,7 +228,7 @@ export default function Ayuda() {
                 </div>
 
                 {/* Área de ayuda general */}
-                <div className="bg-white dark:bg-[#2a2a2a] p-6 rounded-lg shadow-lg transition-colors">
+                <div className="bg-gray-50 dark:bg-[#050505] p-6 rounded-lg shadow-lg transition-colors border border-gray-100 dark:border-white/5">
                     <h1 className="text-4xl font-bold mb-4 text-gray-800 dark:text-white">
                         Ayuda y Soporte
                     </h1>

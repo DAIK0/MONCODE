@@ -20,71 +20,76 @@ function SidebarAdmin() {
   const isActive = (path) => path === location.pathname;
 
   return (
-    <div className="fixed left-0 top-20 bottom-0 w-32 bg-[#085a00] rounded-r-3xl flex flex-col items-center py-8 gap-8 overflow-y-auto">
+    <div className="
+      fixed left-0 top-20 bottom-0 w-32 
+      bg-emerald-50 dark:bg-black 
+      rounded-r-3xl flex flex-col items-center py-8 gap-8 overflow-y-auto
+      transition-colors duration-300 border-r border-emerald-100 dark:border-emerald-900/20
+    ">
       {/* INICIO */}
       <Link
         to="/home"
         className={`flex flex-col items-center gap-2 w-24 py-4 rounded-2xl transition-colors ${
-          isActive("/") ? "bg-[#5a5a5a]" : "hover:bg-[#5a5a5a]"
+          isActive("/") ? "bg-emerald-100 dark:bg-emerald-900/30 border border-emerald-200 dark:border-emerald-500/30" : "hover:bg-emerald-100 dark:hover:bg-emerald-900/20"
         }`}
       >
-        <FiHome size={32} className="text-white" />
-        <span className="text-white text-xs font-light">INICIO</span>
+        <FiHome size={32} className="text-black dark:text-white" />
+        <span className="text-black dark:text-white text-xs font-light">INICIO</span>
       </Link>
 
       {/* CATEGORIA */}
       <Link
         to="/categoria"
         className={`flex flex-col items-center gap-2 w-24 py-4 rounded-2xl transition-colors ${
-          isActive("/categoria") ? "bg-[#5a5a5a]" : "hover:bg-[#5a5a5a]"
+          isActive("/categoria") ? "bg-emerald-100 dark:bg-emerald-900/30 border border-emerald-200 dark:border-emerald-500/30" : "hover:bg-emerald-100 dark:hover:bg-emerald-900/20"
         }`}
       >
-        <FiGrid size={32} className="text-white" />
-        <span className="text-white text-xs font-light">CATEGORIA</span>
+        <FiGrid size={32} className="text-black dark:text-white" />
+        <span className="text-black dark:text-white text-xs font-light">CATEGORIA</span>
       </Link>
 
       {/*inventario*/}
       <Link
         to="/inventario"
         className={`flex flex-col items-center gap-2 w-24 py-4 rounded-2xl transition-colors ${
-          isActive("/inventario") ? "bg-[#5a5a5a]" : "hover:bg-[#5a5a5a]"
+          isActive("/inventario") ? "bg-emerald-100 dark:bg-emerald-900/30 border border-emerald-200 dark:border-emerald-500/30" : "hover:bg-emerald-100 dark:hover:bg-emerald-900/20"
         }`}
       >
-        <FiBox size={32} className="text-white" />
-        <span className="text-white text-xs font-light">INVENTARIO</span>
+        <FiBox size={32} className="text-black dark:text-white" />
+        <span className="text-black dark:text-white text-xs font-light">INVENTARIO</span>
       </Link>
 
       {/* PEDIDOS (ADMIN) */}
       <Link
         to="/admin/pedidos"
         className={`flex flex-col items-center gap-2 w-24 py-4 rounded-2xl transition-colors ${
-          isActive("/admin/pedidos") ? "bg-[#5a5a5a]" : "hover:bg-[#5a5a5a]"
+          isActive("/admin/pedidos") ? "bg-emerald-100 dark:bg-emerald-900/30 border border-emerald-200 dark:border-emerald-500/30" : "hover:bg-emerald-100 dark:hover:bg-emerald-900/20"
         }`}
       >
-        <FiList size={32} className="text-white" />
-        <span className="text-white text-xs font-light">PEDIDOS</span>
+        <FiList size={32} className="text-black dark:text-white" />
+        <span className="text-black dark:text-white text-xs font-light">PEDIDOS</span>
       </Link>
 
       {/* AYUDA */}
       <Link
         to="/ayuda"
         className={`flex flex-col items-center gap-2 w-24 py-4 rounded-2xl transition-colors ${
-          isActive("/ayuda") ? "bg-[#5a5a5a]" : "hover:bg-[#5a5a5a]"
+          isActive("/ayuda") ? "bg-emerald-100 dark:bg-emerald-900/30 border border-emerald-200 dark:border-emerald-500/30" : "hover:bg-emerald-100 dark:hover:bg-emerald-900/20"
         }`}
       >
-        <FiHelpCircle size={32} className="text-white" />
-        <span className="text-white text-xs font-light">AYUDA</span>
+        <FiHelpCircle size={32} className="text-black dark:text-white" />
+        <span className="text-black dark:text-white text-xs font-light">AYUDA</span>
       </Link>
 
       {/* PERFIL */}
       <Link
         to="/perfil"
         className={`flex flex-col items-center gap-2 w-24 py-4 rounded-2xl transition-colors ${
-          isActive("/perfil") ? "bg-[#5a5a5a]" : "hover:bg-[#5a5a5a]"
+          isActive("/perfil") ? "bg-emerald-100 dark:bg-emerald-900/30 border border-emerald-200 dark:border-emerald-500/30" : "hover:bg-emerald-100 dark:hover:bg-emerald-900/20"
         }`}
       >
-        <FiUser size={32} className="text-white" />
-        <span className="text-white text-xs font-light">{user.username}</span>
+        <FiUser size={32} className="text-black dark:text-white" />
+        <span className="text-black dark:text-white text-xs font-light">{user.username}</span>
       </Link>
 
       {/* CERRAR SESIÓN */}
@@ -93,10 +98,10 @@ function SidebarAdmin() {
           logOut();
           navigate("/login");
         }}
-        className="flex flex-col items-center gap-2 w-24 py-4 rounded-2xl transition-colors hover:bg-[#5a5a5a]"
+        className="flex flex-col items-center gap-2 w-24 py-4 rounded-2xl transition-colors hover:bg-emerald-100 dark:hover:bg-emerald-900/20"
       >
-        <FiLogOut size={32} className="text-white" />
-        <span className="text-white text-xs font-light">CERRAR SESIÓN</span>
+        <FiLogOut size={32} className="text-black dark:text-white" />
+        <span className="text-black dark:text-white text-xs font-light">CERRAR SESIÓN</span>
       </button>
     </div>
   );

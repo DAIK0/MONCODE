@@ -20,6 +20,10 @@ export const updateProfile = async (req, res) => {
         if (email) user.email = email;
 
         if (password && password.trim() !== "") {
+            const isMatch = await bcrypt.compare(password, user.password);
+            if (isMatch) {
+                return res.status(400).json({ message: "La nueva contraseña no puede ser igual a la anterior" });
+            }
             user.password = await bcrypt.hash(password, 10);
         }
 

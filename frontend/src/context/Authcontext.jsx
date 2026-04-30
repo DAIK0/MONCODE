@@ -59,35 +59,43 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         async function chekLogin() {
-            if (!Cookies.get('token')) {
+            const token = Cookies.get('token');
+            if (!token) {
                 setIsAuthenticated(false);
-                setIsLoading(false);
-
                 setUser(null);
                 setIsAdmin(false);
-            }//fin del if
-            try {
-                const res = await verifyToken(Cookies.get('token'));
-
-                if (!res.data)
-                    setIsAuthenticated(false);
-                setUser(null)
-                setIsAdmin(false);
                 setIsLoading(false);
+                return;
+            }
+            try {
+                const res = await verifyToken(token);
 
+                if (!res.data) {
+                    setIsAuthenticated(false);
+                    setUser(null);
+                    setIsAdmin(false);
+                    setIsLoading(false);
+                    return;
+                }
 
+                // Token valid – restore session
+                setUser(res.data);
+                setIsAuthenticated(true);
                 if (res.data.role === ROLE_ADMIN)
                     setIsAdmin(true);
 
-                // eslint-disable-next-line no-unused-vars
             } catch (error) {
                 console.log(error);
-
+                setIsAuthenticated(false);
+                setUser(null);
+                setIsAdmin(false);
+            } finally {
+                setIsLoading(false);
             }
-
         }
         chekLogin();
-    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     const logOut = () => {
         logout();

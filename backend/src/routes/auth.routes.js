@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { login, register, logout, profile } from '../controllers/auth.controller.js';
+import { login, register, logout, profile, verifyToken } from '../controllers/auth.controller.js';
 import { authRequired } from '../middlewares/validateToken.js';
 
 //Importamos el validateSchema
@@ -21,5 +21,8 @@ router.post('/logout', logout);
 
 //Ruta para obtener el perfil del usuario
 router.get('/profile', authRequired, profile);
+
+//Ruta para verificar token / sesion activa
+router.get('/verifique', verifyToken);
 
 export default router;

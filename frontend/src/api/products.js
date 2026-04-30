@@ -3,7 +3,7 @@ import axiosInstance from "./axiosInstance";
 // ruta para traer todos los productos por id
 export const getAllProducts = () => axiosInstance.get("/getallproducts");
 
-export const searchProducts = () => axiosInstance.get("/search");
+export const searchProducts = (searchQuery) => axiosInstance.get(`/search?search=${searchQuery}`);
 
 
 
@@ -12,3 +12,5 @@ export const searchProducts = () => axiosInstance.get("/search");
 
 
 //ruta para traer todos los productos por id
+
+export const createProductReview = (id, reviewData) => axiosInstance.post(`/products/${id}/reviews`, reviewData);

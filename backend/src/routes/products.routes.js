@@ -8,7 +8,8 @@ import {
     updateProductWithoutImage,
     updateProductWithImage,
     getAllProducts,
-    searchProducts
+    searchProducts,
+    createProductReview
 } from '../controllers/product.controller.js'
 
 //Importamos el validationSchema
@@ -37,7 +38,7 @@ router.get('/products/:id', authRequired, getProductById);
 router.delete('/products/:id', authRequired, deleteProduct);
 
 //Ruta para actualizar un producto sin actualizar la imagen
-router.put('/:id', authRequired, validateSchema(productUpdateSchema), updateProductWithoutImage);
+router.put('/products/:id', authRequired, validateSchema(productUpdateSchema), updateProductWithoutImage);
 
 //Ruta para actualizar un producto y CAMBIAR la imagen
 router.put('/products/updatewithimage/:id', authRequired, uploadToCloudinary, validateSchema(productSchema), updateProductWithImage);
@@ -45,5 +46,7 @@ router.put('/products/updatewithimage/:id', authRequired, uploadToCloudinary, va
 router.put('/products/updatewithoutimage/:id', authRequired, uploadToCloudinary, validateSchema(productSchema), updateProductWithoutImage);
 
 router.get('/search', searchProducts);
+
+router.post('/products/:id/reviews', authRequired, createProductReview);
 
 export default router;

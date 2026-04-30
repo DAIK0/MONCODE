@@ -126,22 +126,10 @@ export const CarritoProvider = ({ children }) => {
     }
   }; //fin confirmarOrden
 
-  //funcion para cancelar la orden por parte del usuario
-  const cancelarOrden = async () => {
+  //funcion para cancelar la orden por parte del usuario (limpia el carrito localmente)
+  const cancelarOrden = () => {
     if (cart.length === 0) return;
-
-    const orden = {
-      items: cart.map((item) => ({
-        productId: item._id,
-        price: item.price,
-        quantity: item.cantidad,
-      })),
-      total: calcularTotal(),
-    };
-    console.log("Orden cancelada:", orden);
-    const _response = await eliminarOrden(orden);
-    setMensaje("Orden cancelada.");
-
+    setMensaje("Carrito vaciado.");
     setCart([]);
   }; //fin cancelarOrden
 

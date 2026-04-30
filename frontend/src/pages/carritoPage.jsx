@@ -1,9 +1,14 @@
-import Header from "../components/HeaderUser.jsx";
 import Sidebar from "../components/SidebarUser.jsx";
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/Authcontext.jsx";
 import { useCarrito } from "../context/useCarrito.js";
 import Ticket from "../components/ticket.jsx";
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
+import CheckoutForm from '../components/CheckoutForm.jsx';
+import { createPaymentIntent } from '../api/payment.js';
+
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY || "pk_test_51MockupKeyForTestingOnlyPLEASECHANGE");
 
 function CarritoPage() {
   // eslint-disable-next-line no-unused-vars
@@ -23,6 +28,8 @@ function CarritoPage() {
   const [productosDetalles, setProductosDetalles] = useState([]);
   const [cargando, setCargando] = useState(false);
   const [mostarTicket, setMostrarTicket] = useState(false);
+  const [clientSecret, setClientSecret] = useState("");
+  const [mostrarPago, setMostrarPago] = useState(false);
 
   //function para actualizar la cantidad de productos en el carrito
   /* const incrementarCantidad = (product) => {
@@ -41,21 +48,39 @@ function CarritoPage() {
       toast.success("cantidad actualizada");
     }*/
   //funcion para mostrar los productos que se adregregaron al carrito
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
-    const fetchProductosDetalles = async () => {
-      setCargando(true);
-      const productosDetalles = await mostrarProductosCarrito();
-      setProductosDetalles(productosDetalles);
-      setCargando(false);
-    };
-    fetchProductosDetalles();
-  }, [mostrarProductosCarrito]);
+    setCargando(true);
+    const detalles = mostrarProductosCarrito();
+    setProductosDetalles(detalles);
+    setCargando(false);
+  // Re-run only when cart contents change
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  //funcion para confirmar la orden por parte del usuario
+  //funcion para iniciar el pago
+  const handleIniciarPago = async () => {
+    try {
+      const total = calcularTotal();
+      if (total <= 0) {
+        setMensaje("El carrito está vacío");
+        return;
+      }
+      const res = await createPaymentIntent(total);
+      setClientSecret(res.data.clientSecret);
+      setMostrarPago(true);
+    } catch (error) {
+      console.error("Error al iniciar pago", error);
+      setMensaje("Error al conectar con el servidor de pagos.");
+    }
+  };
+
+  //funcion para confirmar la orden por parte del usuario (Despues del pago)
   const handleConfirmarOrden = async () => {
     const ticket = await confirmarOrden();
 
     if (ticket) {
+      setMostrarPago(false);
       setMostrarTicket(true);
     }
 
@@ -94,45 +119,44 @@ function CarritoPage() {
 
   //
   return (
-    <div className="min-h-screen bg-[#e5e5e5]">
-      <Header />
+    <div className="min-h-screen bg-white dark:bg-black transition-colors duration-300">
       <Sidebar />
 
       {/* Main content - offset for sidebar */}
       <main className="ml-32 pt-24 px-8 pb-8">
-        <div className="bg-[#d4d4d4] rounded-3xl p-8 min-h-[calc(100vh-8rem)]">
-          <h2 className="text-3xl font-bold mb-6 text-gray-800">Tu carrito</h2>
+        <div className="bg-gray-50 dark:bg-[#050505] rounded-3xl p-8 min-h-[calc(100vh-8rem)] shadow-lg transition-colors border border-gray-100 dark:border-white/5">
+          <h2 className="text-3xl font-bold mb-6 text-gray-900 dark:text-white">Tu carrito</h2>
           {mensaje && (
-            <div className="mb-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg">
+            <div className="mb-4 p-4 bg-green-100 dark:bg-green-900/30 border border-green-400 dark:border-green-800 text-green-700 dark:text-green-300 rounded-lg">
               {mensaje}
             </div>
           )}
 
           {cargando ? (
-            <p className="text-center py-8">Cargando productos...</p>
+            <p className="text-center py-8 text-gray-600 dark:text-gray-400">Cargando productos...</p>
           ) : productosDetalles.length === 0 ? (
-            <p className="text-center py-8 text-gray-600">
+            <p className="text-center py-8 text-gray-600 dark:text-gray-400">
               No hay productos en el carrito
             </p>
           ) : (
             <>
-              <div className="overflow-x-auto">
-                <table className="w-full bg-white rounded-lg overflow-hidden">
-                  <thead className="bg-gray-200">
+              <div className="overflow-x-auto rounded-xl shadow-inner bg-white dark:bg-black p-1">
+                <table className="w-full bg-white dark:bg-[#050505] rounded-lg overflow-hidden transition-colors">
+                  <thead className="bg-gray-100 dark:bg-gray-800 transition-colors">
                     <tr>
-                      <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">
+                      <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700 dark:text-gray-300">
                         Producto
                       </th>
-                      <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">
+                      <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700 dark:text-gray-300">
                         Descripción
                       </th>
-                      <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">
+                      <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700 dark:text-gray-300">
                         Precio
                       </th>
-                      <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">
+                      <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700 dark:text-gray-300">
                         Cantidad
                       </th>
-                      <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">
+                      <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700 dark:text-gray-300">
                         Subtotal
                       </th>
                       <th className="px-6 py-4"></th>
@@ -142,20 +166,20 @@ function CarritoPage() {
                     {productosDetalles.map((producto) => (
                       <tr
                         key={producto._id}
-                        className="border-b border-gray-200 hover:bg-gray-50"
+                        className="border-b border-gray-100 dark:border-white/5 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
                       >
                         <td className="px-6 py-4">
-                          <div className="bg-gray-100 text-gray-900 rounded-lg px-4 py-2 inline-block">
+                          <div className="bg-gray-50 dark:bg-[#050505] text-gray-900 dark:text-white rounded-lg px-4 py-2 inline-block transition-colors border border-gray-100 dark:border-white/5">
                             {producto.name}
                           </div>
                         </td>
-                        <td className="px-6 py-4 text-gray-700">
+                        <td className="px-6 py-4 text-gray-700 dark:text-gray-300">
                           {producto.description}
                         </td>
-                        <td className="bg-gray-100 text-gray-900 px-6 py-4 font-semibold">
+                        <td className="bg-gray-50 dark:bg-gray-800/50 text-gray-900 dark:text-white px-6 py-4 font-semibold transition-colors">
                           ${producto.price}
                         </td>
-                        <td className="px-6 py-4 text-gray-900">
+                        <td className="px-6 py-4 text-gray-900 dark:text-white">
                           <input
                             type="number"
                             min="1"
@@ -166,18 +190,18 @@ function CarritoPage() {
                                 Number(e.target.value)
                               )
                             }
-                            className="w-20 px-3 py-1 border border-gray-950 rounded-md text-center"
+                            className="w-20 px-3 py-1 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white rounded-md text-center transition-colors shadow-sm"
                           />
                         </td>
-                        <td className="bg-gray-100 text-gray-900 px-6 py-4 font-semibold">
+                        <td className="bg-gray-50 dark:bg-gray-800/50 text-gray-900 dark:text-white px-6 py-4 font-semibold transition-colors">
                           ${producto.price * producto.cantidad}
                         </td>
                         <td className="px-6 py-4">
                           <button
                             onClick={() => handleEliminarProducto(producto._id)}
-                            className="text-red-500 hover:text-red-700 font-medium"
+                            className="text-red-500 hover:text-red-700 dark:hover:text-red-400 font-medium transition-colors"
                           >
-                            Eliminar Producto
+                            Eliminar
                           </button>
                         </td>
                       </tr>
@@ -187,18 +211,18 @@ function CarritoPage() {
               </div>
 
               <div className="mt-8 flex justify-end items-center gap-6">
-                <div className="text-2xl font-bold text-gray-800">
+                <div className="text-2xl font-bold text-gray-900 dark:text-white">
                   Total: ${calcularTotal()}
                 </div>
                 <button
-                  onClick={handleConfirmarOrden}
-                  className="bg-green-600 hover:bg-green-700 text-white font-semibold px-8 py-3 rounded-lg transition-colors"
+                  onClick={handleIniciarPago}
+                  className="bg-green-600 hover:bg-green-700 text-white font-semibold px-8 py-3 rounded-lg transition-all shadow-md hover:shadow-lg active:scale-95"
                 >
-                  Confirmar Orden
+                  Proceder al Pago
                 </button>
                 <button
                   onClick={handleCancelarOrden}
-                  className="bg-red-600 hover:bg-red-700 text-white font-semibold px-8 py-3 rounded-lg transition-colors"
+                  className="bg-red-600 hover:bg-red-700 text-white font-semibold px-8 py-3 rounded-lg transition-all shadow-md hover:shadow-lg active:scale-95"
                 >
                   Cancelar Orden
                 </button>
@@ -227,6 +251,20 @@ function CarritoPage() {
               ticket={tiketCompra}
               onClose={() => setMostrarTicket(false)}
             />
+          </div>
+        </div>
+      )}
+
+      {mostrarPago && clientSecret && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[60] p-4">
+          <div className="w-full max-w-md">
+            <Elements stripe={stripePromise} options={{ clientSecret }}>
+              <CheckoutForm 
+                total={calcularTotal()} 
+                onCancel={() => setMostrarPago(false)} 
+                onSuccess={handleConfirmarOrden}
+              />
+            </Elements>
           </div>
         </div>
       )}

@@ -39,24 +39,24 @@ export function ProductsGrid() {
 
     if (loading) {
         return (
-            <div className="flex justify-center items-center min-h-96">
-                <p className="text-muted-foreground">Cargando productos...</p>
+            <div className="flex justify-center items-center min-h-[400px]">
+                <p className="text-gray-500 dark:text-gray-400 animate-pulse font-medium">Cargando productos...</p>
             </div>
         )
     }
 
     if (error) {
         return (
-            <div className="flex justify-center items-center min-h-96">
-                <p className="text-destructive">{error}</p>
+            <div className="flex justify-center items-center min-h-[400px]">
+                <p className="text-red-500 dark:text-red-400 font-bold">{error}</p>
             </div>
         )
     }
 
     if (products.length === 0) {
         return (
-            <div className="flex justify-center items-center min-h-96">
-                <p className="text-muted-foreground">No hay productos disponibles</p>
+            <div className="flex justify-center items-center min-h-[400px]">
+                <p className="text-gray-500 dark:text-gray-400">No hay productos disponibles actualmente.</p>
             </div>
         )
     }

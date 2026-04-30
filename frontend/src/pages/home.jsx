@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
-import Header from "../components/HeaderUser";
 import Sidebar from "../components/Sidebar";
 import Cookies from "js-cookie";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -12,14 +11,13 @@ function Home() {
   const [novedades, setNovedades] = useState([]);
 
   return (
-    <div className="min-h-screen">
-      <Header />
+    <div className="min-h-screen bg-white dark:bg-black transition-colors duration-300">
       <Sidebar />
 
       <main className="ml-32 mt-20 p-8">
         {/* NOVEDADES */}
         <section className="mb-12">
-          <h2 className="text-3xl font-bold text-shadow-gray-500   mb-6">
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">
             NOVEDADES
           </h2>
 
@@ -35,7 +33,7 @@ function Home() {
                 }}
                 spaceBetween={20}
                 slidesPerView={1}
-                className="w-full h-[500px] rounded-3xl overflow-hidden"
+                className="w-full h-[500px] bg-black rounded-3xl overflow-hidden"
               >
                 <SwiperSlide>
                   <div className="w-medium h-full bg-black/60">
@@ -114,7 +112,7 @@ function Home() {
 
         {/* NOTICIAS */}
         <section>
-          <h2 className="text-3xl font-bold text-shadow-gray-500 mb-6">
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">
             NOTICIAS
           </h2>
           <div className="grid grid-cols-2 gap-6">

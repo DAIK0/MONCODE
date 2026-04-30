@@ -217,3 +217,44 @@ export const searchProducts = async (req, res) => {
 //funcion para obtener todos los productos de todos los usuarios
 //para la compra de productos
 
+import User from '../models/user.models.js';
+
+export const createProductReview = async (req, res) => {
+    try {
+        const { rating, comment } = req.body;
+        const product = await Product.findById(req.params.id);
+
+        if (!product) {
+            return res.status(404).json({ message: 'Producto no encontrado' });
+        }
+
+        const alreadyReviewed = product.reviews.find(
+            (r) => r.user.toString() === req.user.id.toString()
+        );
+
+        if (alreadyReviewed) {
+            return res.status(400).json({ message: 'Ya has valorado este producto' });
+        }
+
+        const user = await User.findById(req.user.id);
+
+        const review = {
+            name: user.username,
+            rating: Number(rating),
+            comment,
+            user: req.user.id,
+        };
+
+        product.reviews.push(review);
+        product.numReviews = product.reviews.length;
+        product.rating =
+            product.reviews.reduce((acc, item) => item.rating + acc, 0) /
+            product.reviews.length;
+
+        await product.save();
+        res.status(201).json({ message: 'Reseña agregada exitosamente', review });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error al agregar la reseña' });
+    }
+};

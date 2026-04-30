@@ -13,6 +13,8 @@ import CategoriaPage from "./pages/categoria.jsx";
 import AdminOrdersPage from "./pages/AdminOrdersPage.jsx";
 import MisPedidosPage from "./pages/MisPedidosPage.jsx";
 import Sidebar from "./components/Sidebar.jsx";
+import HeaderGlobal from "./components/HeaderGlobal.jsx";
+import BuscarPage from "./pages/BuscarPage.jsx";
 import { ThemeProvider } from "./context/ThemeContext";
 import { ProductProvider } from "./context/producContext.jsx";
 import { OrdenProvider } from "./context/ordenContext.jsx";
@@ -26,6 +28,7 @@ function App() {
             <CarritoProvider>
               <OrdenProvider>
                 <BrowserRouter>
+                  <HeaderGlobal />
                   <Sidebar />
                   <Routes>
                     <Route path="/" element={<HomePage />} />
@@ -33,8 +36,10 @@ function App() {
                     <Route path="/login" element={<LoginPage />} />
                     <Route path="/home" element={<HomePage />} />
                     <Route path="/ayuda" element={<HelpPage />} />
+                    <Route path="/categoria" element={<CategoriaPage />} />
                     <Route path="/categoria/:category" element={<CategoriaPage />} />
-                //rutas protegidas
+                    <Route path="/buscar/:searchTerm" element={<BuscarPage />} />
+                {/* rutas protegidas */}
                     <Route element={<Protected_Router />}>
                       <Route path="/carrito" element={<CarritoPage />} />
                       <Route path="/perfil" element={<PerfilPage />} />

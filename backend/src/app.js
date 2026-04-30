@@ -4,13 +4,14 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 
 //importamos las rutas para usuario
-import authRoutes from './routes/user.routes.js';
+import authRoutes from './routes/auth.routes.js';
 //importamos las rutas para productos
 import productRoutes from './routes/products.routes.js'
 import orderRoutes from './routes/order.routes.js';
 import jwt from 'jsonwebtoken';
 
 import userRoutes from './routes/user.routes.js';
+import paymentRoutes from './routes/payment.routes.js';
 const { verify } = jwt;
 
 
@@ -31,5 +32,6 @@ app.use('/api/', authRoutes)
 app.use('/api/', productRoutes);
 app.use('/api/', orderRoutes);
 app.use('/api/', userRoutes);
+app.use('/api/', paymentRoutes);
 
 export default app;

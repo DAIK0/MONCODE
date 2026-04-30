@@ -2,6 +2,7 @@
 import User from '../models/user.models.js';
 import Role from '../models/roles.models.js';
 import bcryptjs from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 import { createAccessToken } from '../libs/jwt.js';
 import dotenv from 'dotenv';
 
@@ -158,3 +159,25 @@ export const profile = async (req, res) => {
         role: role.role
     });
 }//fin de profile
+
+export const verifyToken = async (req, res) => {
+    const { token } = req.cookies;
+    
+    if (!token) return res.status(401).json({ message: ["No autorizado"] });
+
+    jwt.verify(token, process.env.TOKEN_SECRET, async (err, user) => {
+        if (err) return res.status(401).json({ message: ["No autorizado"] });
+
+        const userFound = await User.findById(user.id);
+        if (!userFound) return res.status(401).json({ message: ["No autorizado"] });
+
+        const roleObj = await Role.findById(userFound.role);
+
+        return res.json({
+            id: userFound._id,
+            username: userFound.username,
+            email: userFound.email,
+            role: roleObj?.role || 'user'
+        });
+    });
+};

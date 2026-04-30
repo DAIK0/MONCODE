@@ -1,5 +1,6 @@
 import Order from '../models/order.models.js';
 import Product from '../models/product.models.js';
+import { sendOrderConfirmation } from '../libs/mail.config.js';
 
 export const createOrder = async (req, res) => {
     try {
@@ -49,6 +50,15 @@ export const createOrder = async (req, res) => {
                 { $inc: { quantity: -item.quantity } },
                 { new: true }
             );
+        }
+
+        // Send confirmation email
+        // We get the user details from req.user
+        // Wait, req.user does not have email by default, we need it.
+        // I will first import User model or check if req.user has email.
+        const user = await import('../models/user.models.js').then(m => m.default.findById(userId));
+        if (user && user.email) {
+            await sendOrderConfirmation(user.email, newOrder);
         }
 
         res.status(201).json({
