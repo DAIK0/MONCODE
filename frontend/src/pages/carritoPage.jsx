@@ -66,12 +66,12 @@ function CarritoPage() {
         setMensaje("El carrito está vacío");
         return;
       }
-      const res = await createPaymentIntent(total);
-      setClientSecret(res.data.clientSecret);
+      
+      // Simulador Frontend Puro: No pedimos clientSecret a Stripe
       setMostrarPago(true);
     } catch (error) {
       console.error("Error al iniciar pago", error);
-      setMensaje("Error al conectar con el servidor de pagos.");
+      setMensaje("Error al conectar con el servidor simulado.");
     }
   };
 
@@ -255,16 +255,41 @@ function CarritoPage() {
         </div>
       )}
 
-      {mostrarPago && clientSecret && (
+      {mostrarPago && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[60] p-4">
-          <div className="w-full max-w-md">
-            <Elements stripe={stripePromise} options={{ clientSecret }}>
-              <CheckoutForm 
-                total={calcularTotal()} 
-                onCancel={() => setMostrarPago(false)} 
-                onSuccess={handleConfirmarOrden}
-              />
-            </Elements>
+          <div className="bg-white dark:bg-[#050505] border border-gray-200 dark:border-white/10 p-8 rounded-2xl shadow-2xl w-full max-w-sm flex flex-col items-center">
+            <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Simulador de Pago</h3>
+            <p className="text-gray-500 dark:text-gray-400 text-center mb-6">
+              Estás en entorno local. Haz click para simular un pago exitoso.
+            </p>
+            
+            <div className="w-full text-center mb-6 p-4 bg-gray-50 dark:bg-white/5 rounded-xl text-3xl font-bold text-gray-900 dark:text-white">
+              ${calcularTotal()}
+            </div>
+
+            <button
+              onClick={async (e) => {
+                e.preventDefault();
+                const btn = e.currentTarget;
+                btn.disabled = true;
+                btn.innerHTML = "Procesando...";
+                
+                // Simular un delay de carga para que parezca real
+                setTimeout(() => {
+                  handleConfirmarOrden();
+                }, 1500);
+              }}
+              className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-xl transition-all shadow-md active:scale-95 mb-3"
+            >
+              Pagar Orden Ahora
+            </button>
+
+            <button
+              onClick={() => setMostrarPago(false)}
+              className="w-full bg-red-50 hover:bg-red-100 dark:bg-red-900/20 dark:hover:bg-red-900/40 text-red-600 dark:text-red-400 font-medium py-3 rounded-xl transition-all"
+            >
+              Cancelar
+            </button>
           </div>
         </div>
       )}
