@@ -14,8 +14,7 @@ function CarritoPage() {
   // eslint-disable-next-line no-unused-vars
   const { user } = useAuth();
   const {
-    mostrarProductosCarrito,
-    // decProduct,
+    cart, // Extraemos cart directamente
     calcularTotal,
     actualizarCantidad,
     confirmarOrden,
@@ -25,10 +24,8 @@ function CarritoPage() {
     eliminarProducto,
     tiketCompra,
   } = useCarrito();
-  const [productosDetalles, setProductosDetalles] = useState([]);
-  const [cargando, setCargando] = useState(false);
+
   const [mostarTicket, setMostrarTicket] = useState(false);
-  const [clientSecret, setClientSecret] = useState("");
   const [mostrarPago, setMostrarPago] = useState(false);
 
   //function para actualizar la cantidad de productos en el carrito
@@ -48,15 +45,6 @@ function CarritoPage() {
       toast.success("cantidad actualizada");
     }*/
   //funcion para mostrar los productos que se adregregaron al carrito
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => {
-    setCargando(true);
-    const detalles = mostrarProductosCarrito();
-    setProductosDetalles(detalles);
-    setCargando(false);
-  // Re-run only when cart contents change
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   //funcion para iniciar el pago
   const handleIniciarPago = async () => {
@@ -108,7 +96,6 @@ function CarritoPage() {
   //funcion para cancelar la orden por parte del usuario
   const handleCancelarOrden = () => {
     cancelarOrden();
-    setProductosDetalles([]);
   }; //finhandleCancelarOrden
 
   //funcion para elminiar el producto del carrito
@@ -132,9 +119,7 @@ function CarritoPage() {
             </div>
           )}
 
-          {cargando ? (
-            <p className="text-center py-8 text-gray-600 dark:text-gray-400">Cargando productos...</p>
-          ) : productosDetalles.length === 0 ? (
+          {cart.length === 0 ? (
             <p className="text-center py-8 text-gray-600 dark:text-gray-400">
               No hay productos en el carrito
             </p>
@@ -163,7 +148,7 @@ function CarritoPage() {
                     </tr>
                   </thead>
                   <tbody>
-                    {productosDetalles.map((producto) => (
+                    {cart.map((producto) => (
                       <tr
                         key={producto._id}
                         className="border-b border-gray-100 dark:border-white/5 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"

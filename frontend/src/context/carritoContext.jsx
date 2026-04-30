@@ -61,21 +61,14 @@ export const CarritoProvider = ({ children }) => {
   };
 
   const agregarAlCarrito = (product) => {
-    setCart((prevCart) => {
-      const productoExistente = prevCart.find(
-        (item) => item._id === product._id
-      );
-
-      if (productoExistente) {
-        return prevCart.map((item) =>
-          item._id === product._id
-            ? { ...item, cantidad: item.cantidad + 1 }
-            : item
-        );
-      }
-      setMensaje("Se agrego correctamente al carrito.");
-      return [...prevCart, { ...product, cantidad: 1 }];
-    });
+    const productoExistente = cart.find(item => item._id === product._id);
+    if (productoExistente) {
+        setCart(cart.map(item => item._id === product._id ? { ...item, cantidad: item.cantidad + 1 } : item));
+        setMensaje("Se agregó una unidad más al carrito.");
+    } else {
+        setCart([...cart, { ...product, cantidad: 1 }]);
+        setMensaje("Se agregó correctamente al carrito.");
+    }
   }; //fin agregarAlCarrito
 
 

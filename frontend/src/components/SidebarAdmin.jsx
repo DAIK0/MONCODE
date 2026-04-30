@@ -81,28 +81,6 @@ function SidebarAdmin() {
         <span className="text-black dark:text-white text-xs font-light">AYUDA</span>
       </Link>
 
-      {/* PERFIL */}
-      <Link
-        to="/perfil"
-        className={`flex flex-col items-center gap-2 w-24 py-4 rounded-2xl transition-colors ${
-          isActive("/perfil") ? "bg-emerald-100 dark:bg-emerald-900/30 border border-emerald-200 dark:border-emerald-500/30" : "hover:bg-emerald-100 dark:hover:bg-emerald-900/20"
-        }`}
-      >
-        <FiUser size={32} className="text-black dark:text-white" />
-        <span className="text-black dark:text-white text-xs font-light">{user.username}</span>
-      </Link>
-
-      {/* CERRAR SESIÓN */}
-      <button
-        onClick={() => {
-          logOut();
-          navigate("/login");
-        }}
-        className="flex flex-col items-center gap-2 w-24 py-4 rounded-2xl transition-colors hover:bg-emerald-100 dark:hover:bg-emerald-900/20"
-      >
-        <FiLogOut size={32} className="text-black dark:text-white" />
-        <span className="text-black dark:text-white text-xs font-light">CERRAR SESIÓN</span>
-      </button>
     </div>
   );
 }
