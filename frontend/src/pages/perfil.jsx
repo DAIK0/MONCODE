@@ -1,4 +1,4 @@
-import { useUser } from "../context/useUser";
+import { useUser } from "../context/userContext.jsx";
 import { useAuth } from "../context/Authcontext";
 import { useState } from "react";
 import { User, Mail, Lock, Eye, EyeOff } from "lucide-react";

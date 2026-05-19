@@ -1,8 +1,15 @@
-import { createContext, useState } from "react";
+import { createContext, useContext, useState } from "react";
 import { updateProfileRequest } from "../api/user";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const UserContext = createContext(null);
+
+// eslint-disable-next-line react-refresh/only-export-components
+export const useUser = () => {
+    const context = useContext(UserContext);
+    if (!context) throw new Error("useUser debe ser usado dentro de un UserProvider");
+    return context;
+};
 
 export const UserProvider = ({ children }) => {
     const [user, setUser] = useState(null);

@@ -1,7 +1,7 @@
 import Sidebar from "../components/SidebarUser.jsx";
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/Authcontext.jsx";
-import { useCarrito } from "../context/useCarrito.js";
+import { useCarrito } from "../context/carritoContext.jsx";
 import Ticket from "../components/ticket.jsx";
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
