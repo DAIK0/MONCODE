@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect, useContext } from "react";
 import {
   createOrder,
   eliminarOrden,
@@ -19,6 +19,7 @@ export const CarritoProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
   const [mensaje, setMensaje] = useState("");
   const [tiketCompra, setTiketCompra] = useState(null);
+  
 
 
 
