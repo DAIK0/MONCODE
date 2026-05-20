@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { useProducts } from "../context/producContext.jsx";
-import { useCarrito } from "../context/carritoContext.jsx";
+import { useCarrito } from "../context/useCarrito.js";
 import { useAuth } from "../context/Authcontext.jsx";
 
 function BuscarPage() {

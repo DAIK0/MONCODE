@@ -10,8 +10,8 @@ export const AuthContext = createContext();
 // eslint-disable-next-line react-refresh/only-export-components
 export const useAuth = () => {
     const context = useContext(AuthContext);
-    //if (!context)
-    // throw new Error("useAuth debe estar dentro de un AuthProvider");
+    if (!context)
+        throw new Error("useAuth debe estar dentro de un AuthProvider");
     return context;
 } //fin de useAuth
 
@@ -94,7 +94,7 @@ export const AuthProvider = ({ children }) => {
             }
         }
         chekLogin();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const logOut = () => {

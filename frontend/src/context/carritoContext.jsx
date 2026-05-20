@@ -2,17 +2,10 @@ import { createContext, useState, useEffect, useContext } from "react";
 import {
   createOrder,
   eliminarOrden,
-} from "../api/orders.js";
+} from "../api/carrito.js";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const CarritoContext = createContext();
-
-// eslint-disable-next-line react-refresh/only-export-components
-export const useCarrito = () => {
-  const context = useContext(CarritoContext);
-  if (!context) throw new Error("useCarrito debe estar dentro del CarritoProvider");
-  return context;
-};
 
 
 export const CarritoProvider = ({ children }) => {

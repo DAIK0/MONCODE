@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Sidebar from "../components/Sidebar";
 //import { getAllProducts } from "../api/products.js";
 import { useProducts } from "../context/producContext.jsx";
-import { useCarrito } from "../context/carritoContext.jsx";
+import { useCarrito } from "../context/useCarrito.js";
 import { useAuth } from "../context/Authcontext.jsx";
 import { useParams } from "react-router";
 import ProductModal from "../components/ProductModal.jsx";

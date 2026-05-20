@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import { obtenerOrdenPorId, obtenerTodasLasOrdenes, obtenerOrdenesUser, actualizarEstadoOrden } from "../api/orders.js";
+import { obtenerOrdenPorId, obtenerTodasLasOrdenes, obtenerOrdenesUser, actualizarEstadoOrden } from "../api/carrito.js";
 import { useAuth } from "../context/Authcontext.jsx";
 
 const OrdenContext = createContext();
