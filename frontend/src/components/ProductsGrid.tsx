@@ -23,7 +23,7 @@ export function ProductsGrid() {
         const fetchProducts = async () => {
             try {
                 setLoading(true)
-                const response = await axios.get("http://localhost:3000/api/products/")
+                const response = await axios.get(import.meta.env.VITE_BASE_URL + "/api/products/")
                 setProducts(response.data)
                 setError(null)
             } catch (err) {
