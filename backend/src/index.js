@@ -19,5 +19,6 @@ cloudinary.config({
     api_key: process.env.CLOUDINARY_API_KEY,
     api_secret: process.env.CLOUDINARY_API_SECRET
 })
-app.listen(3000);
-console.log('Servidor corriendo en el puerto 3000');
+const port = process.env.PORT || 3000;
+app.listen(port);
+console.log(`Servidor corriendo en el puerto ${port}`);

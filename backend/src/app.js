@@ -17,9 +17,11 @@ const { verify } = jwt;
 
 const app = express();
 app.use(cors({
-    origin: 'http://localhost:5173',
+    origin: [
+        'http://localhost:5173', 
+        process.env.FRONTEND_URL // Permitir URL del frontend en produccion
+    ].filter(Boolean),
     credentials: true,
-
 }))
 app.use(morgan('dev'));
 app.use(express.json());
