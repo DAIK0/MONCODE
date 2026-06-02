@@ -259,10 +259,18 @@ function CarritoPage() {
                 btn.disabled = true;
                 btn.innerHTML = "Procesando...";
                 
-                // Simular un delay de carga para que parezca real
-                setTimeout(() => {
-                  handleConfirmarOrden();
-                }, 1500);
+                try {
+                  // Simular un delay de carga para que parezca real
+                  await new Promise(resolve => setTimeout(resolve, 1500));
+                  await handleConfirmarOrden();
+                } catch (error) {
+                  console.error("Error al procesar el pago:", error);
+                  // Restaurar el botón si hay un error
+                  btn.disabled = false;
+                  btn.innerHTML = "Pagar Orden Ahora";
+                  setMensaje("Error al procesar el pago. Intente nuevamente.");
+                  setMostrarPago(false);
+                }
               }}
               className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-xl transition-all shadow-md active:scale-95 mb-3"
             >
